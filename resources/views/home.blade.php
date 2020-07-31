@@ -38,7 +38,7 @@
      </div>
 </div>
 
-<form method="post" id="outWithErr" action="/home">
+<form method="post" id="outWithErr">
     @csrf
     <input type="hidden" name="out" value="err">
 </form>
@@ -98,7 +98,7 @@
                 
         const api = new JitsiMeetExternalAPI(domain, options);
 
-        api.on('participantJoined', function clientJoined() {
+        api.on('participantJoined', function () {
             new Noty({
                 layout: 'centerRight',
                 type: 'success',
@@ -107,11 +107,11 @@
             }).show();
         });
 
-        api.on('participantKickedOut', function clientJoined() {
+        api.on('participantKickedOut', function () {
             releaseDr(api);
         });
 
-        api.on('participantLeft', function clientJoined() {
+        api.on('participantLeft', function () {
             releaseDr(api);
         });
         
