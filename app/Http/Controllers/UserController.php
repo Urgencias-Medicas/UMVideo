@@ -29,6 +29,7 @@ class UserController extends Controller
                 'client_id' => $userID
             ));
 
+            date_default_timezone_set('America/Guatemala');
             $content = array(
                 'waitCount' => 0,
                 'waitTime' => 0,
@@ -113,6 +114,7 @@ class UserController extends Controller
                 $person = QueueController::getFirstInQueue();
                 if ($person) {
 
+                    date_default_timezone_set('America/Guatemala');
                     $data = array(
                         'title' => "¡Un Doctor Está Listo Para Atenderte!",
                         'body' => "Presiona aquí para entrar a la videollamada",
