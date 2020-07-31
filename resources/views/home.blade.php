@@ -3,8 +3,6 @@
 <head>
     <script src='https://video.excess.software/external_api.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script type="text/javascript" src="js/noty/packaged/jquery.noty.packaged.min.js"></script>
 </head>
 
 @section('content')
@@ -39,6 +37,11 @@
         <div>
      </div>
 </div>
+
+<form method="post" id="outWithErr" action="/home">
+    @csrf
+    <input type="hidden" name="out" value="err">
+</form>
 
 <script>
     // Greeting
@@ -95,6 +98,15 @@
                 
         const api = new JitsiMeetExternalAPI(domain, options);
 
+        api.on('participantJoined', function clientJoined() {
+            new Noty({
+                layout: 'centerRight',
+                type: 'success',
+                text: 'Un paciente se acaba de conectar.',
+                timeout: 3000
+            }).show();
+        });
+
         api.on('participantKickedOut', function clientJoined() {
             releaseDr(api);
         });
@@ -107,12 +119,13 @@
 
         document.getElementById('session').onclick = function() {
             if (api.getNumberOfParticipants() > 1) {
-                $( document ).ready(function() {
-                    new Noty({
-                        type: "warning",
-                        text: 'No debe salirse si hay clientes dentro de la llamada.',
-                    }).show();
-                });
+                new Noty({
+                    layout: 'centerRight',
+                    type: 'warning',
+                    text: 'No debe salirse si hay clientes dentro de la llamada.',
+                    timeout: 3000
+                }).show();
+
                 return false;
             }
 
@@ -120,22 +133,29 @@
         };
     }
 
-    if ("<?php echo isset($in); ?>" && "<?php echo $actionAvailable; ?>") {
-        $( document ).ready(function() {
-            new Noty({
-                type: "warning",
-                text: 'Un cliente en cola se le ha notificado de su disponibilidad. Por favor espere unos minutos mientras el cliente se conecta.',
-            }).show();
-        });
-    
-    } else if ("<?php echo isset($out); ?>" && "<?php echo $value; ?>" == "err") {
-        $( document ).ready(function() {
-            new Noty({
-                type: "error",
-                text: 'Hubo un error con la conexión. Favor iniciar turno nuevamente.',
-            }).show();
-        });
-    }
+    window.addEventListener('load', function () {
+
+        if ("<?php echo isset($in); ?>" && "<?php echo $actionAvailable; ?>") {
+
+                new Noty({
+                    layout: 'centerRight',
+                    type: 'alert',
+                    text: 'Un cliente en cola se le ha notificado de su disponibilidad. Por favor espere unos minutos mientras el cliente se conecta.',
+                    timeout: 3000
+                }).show();
+            
+        } else if ("<?php echo isset($out); ?>" && "<?php echo $value; ?>" == "err") {
+            
+                new Noty({
+                    layout: 'centerRight',
+                    type: 'error',
+                    text: 'Hubo un error con la conexión. Favor iniciar turno nuevamente.',
+                    timeout: 3000
+                }).show();
+            
+        }
+
+    })
 
     function releaseDr(api) {
         if (api.getNumberOfParticipants() == 1) {
@@ -145,16 +165,16 @@
                 data: { data : "<?php echo $dataDr; ?>" }
             })
             .then(function (response) {
-                $( document ).ready(function() {
-                    new Noty({
-                        type: "primary",
-                        text: 'En unos momentos se le conectará con otro paciente.',
-                    }).show();
-                });
+                new Noty({
+                    layout: 'centerRight',
+                    type: 'alert',
+                    text: 'El paciente se ha desconectado.',
+                    timeout: 3000
+                }).show();
             })
             .catch(function (error) {
                 window.removeEventListener("beforeunload", evtListener);
-                window.location.href = "/admin/dashboard?out=err";
+                document.getElementById('outWithErr').submit()
             });
         }
     }
