@@ -37,7 +37,7 @@ class UserController extends Controller
                 'status' => 1
             );
 
-            $data = Helper::cryptR($content, 1);
+            $data = array('data' => Helper::cryptR($content, 1));
 
             return response()->json($data, 200);
 
@@ -53,7 +53,7 @@ class UserController extends Controller
                 'status' => 0
             );
 
-            $data = Helper::cryptR($content, 1);
+            $data = array('data' => Helper::cryptR($content, 1));
 
             return response()->json($data, 200);
 
@@ -71,7 +71,7 @@ class UserController extends Controller
                 'status' => 0
             );
 
-            $data = Helper::cryptR($content, 1);
+            $data = array('data' => Helper::cryptR($content, 1));
 
             return response()->json($data, 200);
 
@@ -90,6 +90,18 @@ class UserController extends Controller
         if (isset($idClient->idUser) && isset($idClient->status)) {
 
             if ($idClient->status) {
+
+                if (!isset($idClient->nameUser)) {
+
+                    $content = array(
+                        'message' => "No se recibieron las variables correctas.",
+                        'status' => 0
+                    );
+
+                    $data = array('data' => Helper::cryptR($content, 1));
+
+                    return response()->json($data, 400);
+                }
 
                 $id_u = $idClient->idUser;
                 $name_u = $idClient->nameUser;
@@ -149,7 +161,7 @@ class UserController extends Controller
                 );
             }
 
-            $data = Helper::cryptR($content, 1);
+            $data = array('data' => Helper::cryptR($content, 1));
 
             return response()->json($data, 200);
 
@@ -160,7 +172,7 @@ class UserController extends Controller
                 'status' => 0
             );
 
-            $data = Helper::cryptR($content, 1);
+            $data = array('data' => Helper::cryptR($content, 1));
 
             return response()->json($data, 400);
         }
