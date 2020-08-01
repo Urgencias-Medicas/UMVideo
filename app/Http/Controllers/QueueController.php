@@ -73,7 +73,7 @@ class QueueController extends Controller
 
             }
 
-            $data = Helper::cryptR($content, 1);
+            $data = array('data' => Helper::cryptR($content, 1));
 
             return response()->json($data, $status);
 
@@ -84,7 +84,7 @@ class QueueController extends Controller
                 'status' => 0
             );
 
-            $data = Helper::cryptR($content, 1);
+            $data = array('data' => Helper::cryptR($content, 1));
 
             return response()->json($data, 400);
         }

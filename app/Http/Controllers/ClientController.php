@@ -27,7 +27,7 @@ class ClientController extends Controller
                 'status' => 1
             );
 
-            $data = Helper::cryptR($content, 1);
+            $data = array('data' => Helper::cryptR($content, 1));
 
             return response()->json($data, 201);
 
@@ -37,7 +37,7 @@ class ClientController extends Controller
                 'status' => 0
             );
 
-            $data = Helper::cryptR($content, 1);
+            $data = array('data' => Helper::cryptR($content, 1));
 
             return response()->json($data, 400);
 
@@ -71,7 +71,7 @@ class ClientController extends Controller
                     'status' => 1
                 );
 
-                $data = Helper::cryptR($content, 1);
+                $data = array('data' => Helper::cryptR($content, 1));
 
                 return response()->json($data, 200);
             
@@ -82,7 +82,7 @@ class ClientController extends Controller
                     'status' => 0
                 );
 
-                $data = Helper::cryptR($content, 1);
+                $data = array('data' => Helper::cryptR($content, 1));
 
                 return response()->json($data, 400);
             }
@@ -94,7 +94,7 @@ class ClientController extends Controller
                 'status' => 0
             );
 
-            $data = Helper::cryptR($content, 1);
+            $data = array('data' => Helper::cryptR($content, 1));
 
             return response()->json($data, 400);
         }
