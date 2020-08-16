@@ -131,6 +131,9 @@
 
             window.removeEventListener("beforeunload", evtListener);
         };
+
+        if ("<?php echo isset($in); ?>" && "<?php echo $actionAvailable; ?>")
+            setTimeout(releaseDr, 30000, api, 1);
     }
 
     window.addEventListener('load', function () {
@@ -157,8 +160,15 @@
 
     })
 
-    function releaseDr(api) {
+    function releaseDr(api, timeout) {
         if (api.getNumberOfParticipants() == 1) {
+
+            timeout = timeout || 0;
+
+            let text = "El paciente se ha desconectado.";
+            if (timeout)
+                text = "El tiempo de espera del paciente ha finalizado."
+
             axios({
                 method: 'post',
                 url: '/api/releaseDr',
@@ -168,9 +178,20 @@
                 new Noty({
                     layout: 'centerRight',
                     type: 'alert',
-                    text: 'El paciente se ha desconectado.',
+                    text: text,
                     timeout: 3000
                 }).show();
+
+                if (response.data.status == 1) {
+                    new Noty({
+                        layout: 'centerRight',
+                        type: 'alert',
+                        text: 'Un cliente en cola se le ha notificado de su disponibilidad. Por favor espere unos minutos mientras el cliente se conecta.',
+                        timeout: 3000
+                    }).show();
+                    
+                    setTimeout(releaseDr, 30000, api, 1);
+                }
             })
             .catch(function (error) {
                 window.removeEventListener("beforeunload", evtListener);
