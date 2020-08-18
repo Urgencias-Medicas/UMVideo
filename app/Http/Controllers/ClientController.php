@@ -12,6 +12,7 @@ class ClientController extends Controller
     {
         return Client::select('token')
                     ->where('idUser', $idUser)
+                    ->where('status', 1)
                     ->groupBy('token')
                     ->get();
     }
@@ -50,10 +51,7 @@ class ClientController extends Controller
 
         if ($input->idUser && $input->title && $input->body) {
 
-            $tokens = Client::select('token')
-                            ->where('idUser', $input->idUser)
-                            ->groupBy('token')
-                            ->get();
+            $tokens = ClientController::getToken($input->idUser);
 
             if ($tokens) {
 
@@ -91,6 +89,38 @@ class ClientController extends Controller
 
             $content = array(
                 'message' => "No se recibió las variables correctas.",
+                'status' => 0
+            );
+
+            $data = array('data' => Helper::cryptR($content, 1));
+
+            return response()->json($data, 400);
+        }
+    }
+
+    public function closeSessionClient(Request $request)
+    {
+        $input = Helper::cryptR($request->input('data'), 0);
+
+        if (isset($input->idUser) && isset($input->token)) {
+
+            $result = Client::where('idUser', $input->idUser)
+                            ->where('token', $input->token)
+                            ->limit(1)
+                            ->update(['status' => 0]);
+
+            $content = array(
+                'status' => $result
+            );
+
+            $data = array('data' => Helper::cryptR($content, 1));
+
+            return response()->json($data, 200);
+
+        } else {
+
+            $content = array(
+                'message' => "No se recibieron las variables correctas.",
                 'status' => 0
             );
 
