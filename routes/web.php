@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::match(['get', 'post'], '/', 'HomeController@index')->name('home');
-
-Route::get('/admin', 'AdminController@index')->name('admin');
-
-Route::post('/create', 'AdminController@create');
-
-Route::post('/edit', 'AdminController@edit');

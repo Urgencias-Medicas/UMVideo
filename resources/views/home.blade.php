@@ -12,6 +12,11 @@
 
 {{-- Buttons --}}
 <div class="">
+    @hasanyrole('super_admin|admin')
+        <form method="get" action="/admin" style="float: right;">
+            <button class="btn btn-secondary mb-3" type="submit">Página de Administración</button>
+        </form>
+    @endhasanyrole
     <form  method="post">
         @csrf
         @php
