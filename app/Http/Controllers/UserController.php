@@ -116,6 +116,8 @@ class UserController extends Controller
 
             $result = UserController::updateUser($id_u, 1);
 
+            $stat = 0;
+
             if ($result) {
 
                 $content = array(
@@ -148,6 +150,8 @@ class UserController extends Controller
                             'user_id' => $id_u,
                             'client_id' => $person->idDevice
                         ));
+
+                        $stat = 1;
                     } else {
                         UserController::updateUser($id_u, 1);
                     }
@@ -161,7 +165,7 @@ class UserController extends Controller
                 );
             }
 
-            $data = array('data' => Helper::cryptR($content, 1));
+            $data = array('data' => Helper::cryptR($content, 1), 'status' => $stat);
 
             return response()->json($data, 200);
 

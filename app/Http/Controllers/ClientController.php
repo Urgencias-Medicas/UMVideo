@@ -20,7 +20,7 @@ class ClientController extends Controller
     {
         $input = Helper::cryptR($request->input('data'), 0);
 
-        if ($input->idUser && $input->token && $input->os) {
+        if (isset($input->idUser) && isset($input->token) && isset($input->os)) {
             Client::create((array)$input);
 
             $content = array(
