@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@can('add_user')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -74,4 +75,11 @@
         </div>
     </div>
 </div>
+@else
+<div style="text-align: center;">
+    <div class="message" style="padding: 10px;">
+        403 | Usuario no posee los permisos necesarios.
+    </div>
+</div>
+@endcan
 @endsection

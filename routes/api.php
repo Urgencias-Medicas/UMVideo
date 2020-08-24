@@ -27,3 +27,5 @@ Route::POST('notify', 'ClientController@notifyUser');
 Route::POST('leaveQueue', 'QueueController@removeFromQueue');
 
 Route::POST('releaseDr', 'UserController@releaseUser');
+
+Route::POST('signOut', 'ClientController@closeSessionClient');
