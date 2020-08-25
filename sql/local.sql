@@ -16,6 +16,37 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `clients`
+--
+
+DROP TABLE IF EXISTS `clients`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `clients` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `idUser` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `os` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clients`
+--
+
+LOCK TABLES `clients` WRITE;
+/*!40000 ALTER TABLE `clients` DISABLE KEYS */;
+INSERT INTO `clients` VALUES (1,'9049','46b08e276d981b592538ed530d35bc12c43f611d0a2abe1d1e394de45088654c','ios',1,'2020-07-30 10:40:53','2020-07-30 10:40:53');
+INSERT INTO `clients` VALUES (2,'9049','ciuQK_wIFk_clbQmUV-2JC:APA91bEEMD3slr74ep6RbaVUX1qftycWWJLO0UAQpg5uLzx-txg8tqUv-yoTsKsy_wAPO0YR3pGoEYd-7vUeN-YzKx7GsBHqio5P_9ffzLzo0R7UlOHDNc-NWh00Fxg5naCZHRSgFwlW','ios',0,'2020-08-16 08:19:02','2020-08-18 10:03:22');
+INSERT INTO `clients` VALUES (3,'5050','ciuQK_wIFk_clbQmUV-2JC:APA91bEEMD3slr74ep6RbaVUX1qftycWWJLO0UAQpg5uLzx-txg8tqUv-yoTsKsy_wAPO0YR3pGoEYd-7vUeN-YzKx7GsBHqio5P_9ffzLzo0R7UlOHDNc-NWh00Fxg5naCZHRSgFwlW','ios',1,'2020-08-17 10:45:04','2020-08-17 10:45:04');
+/*!40000 ALTER TABLE `clients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `failed_jobs`
 --
 
@@ -54,7 +85,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +98,16 @@ INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1);
 INSERT INTO `migrations` VALUES (2,'2014_10_12_100000_create_password_resets_table',1);
 INSERT INTO `migrations` VALUES (3,'2019_08_19_000000_create_failed_jobs_table',1);
 INSERT INTO `migrations` VALUES (4,'2020_07_28_055714_create_permission_tables',2);
+INSERT INTO `migrations` VALUES (5,'2020_03_31_114745_remove_backpackuser_model',3);
+INSERT INTO `migrations` VALUES (6,'2020_06_20_201918_add_status_to_users_table',3);
+INSERT INTO `migrations` VALUES (7,'2020_06_28_003934_create_queues_table',4);
+INSERT INTO `migrations` VALUES (8,'2020_06_28_024648_update_queues_table',4);
+INSERT INTO `migrations` VALUES (9,'2020_06_29_231301_create_clients_table',4);
+INSERT INTO `migrations` VALUES (10,'2020_07_12_214900_add_multiple_column_to_queues',4);
+INSERT INTO `migrations` VALUES (11,'2020_07_12_220133_drop_last_in_queue_to_queues',4);
+INSERT INTO `migrations` VALUES (12,'2020_07_14_174230_add_os_to_clients',4);
+INSERT INTO `migrations` VALUES (13,'2020_07_19_140242_create_sessions_table',4);
+INSERT INTO `migrations` VALUES (14,'2020_08_18_033242_add_status_to_clients_table',5);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,6 +161,7 @@ CREATE TABLE `model_has_roles` (
 LOCK TABLES `model_has_roles` WRITE;
 /*!40000 ALTER TABLE `model_has_roles` DISABLE KEYS */;
 INSERT INTO `model_has_roles` VALUES (1,'App\\User',1);
+INSERT INTO `model_has_roles` VALUES (2,'App\\User',2);
 /*!40000 ALTER TABLE `model_has_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -161,7 +203,7 @@ CREATE TABLE `permissions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,9 +212,41 @@ CREATE TABLE `permissions` (
 
 LOCK TABLES `permissions` WRITE;
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
-INSERT INTO `permissions` VALUES (1,'Todos','web','2020-07-29 12:48:04','2020-07-29 15:26:37');
-INSERT INTO `permissions` VALUES (2,'Dashboard','web','2020-07-29 15:31:41','2020-07-29 15:31:41');
+INSERT INTO `permissions` VALUES (1,'edit_users','web','2020-07-29 12:48:04','2020-08-18 13:06:33');
+INSERT INTO `permissions` VALUES (2,'edit_roles','web','2020-07-29 15:31:41','2020-08-18 13:06:03');
+INSERT INTO `permissions` VALUES (3,'edit_permissions','web','2020-07-31 12:52:34','2020-08-18 13:06:11');
+INSERT INTO `permissions` VALUES (4,'add_user','web','2020-08-18 13:11:58','2020-08-18 13:11:58');
+INSERT INTO `permissions` VALUES (5,'add_role','web','2020-08-18 13:12:04','2020-08-18 13:12:04');
+INSERT INTO `permissions` VALUES (6,'add_permission','web','2020-08-18 13:12:10','2020-08-18 13:12:10');
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `queues`
+--
+
+DROP TABLE IF EXISTS `queues`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `queues` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `idDevice` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `queues`
+--
+
+LOCK TABLES `queues` WRITE;
+/*!40000 ALTER TABLE `queues` DISABLE KEYS */;
+INSERT INTO `queues` VALUES (1,'9049',0,'2020-07-30 10:46:53','2020-08-16 10:09:21');
+INSERT INTO `queues` VALUES (2,'9049',0,'2020-08-01 10:29:18','2020-08-16 10:08:50');
+/*!40000 ALTER TABLE `queues` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -198,8 +272,14 @@ CREATE TABLE `role_has_permissions` (
 
 LOCK TABLES `role_has_permissions` WRITE;
 /*!40000 ALTER TABLE `role_has_permissions` DISABLE KEYS */;
-INSERT INTO `role_has_permissions` VALUES (1,1);
-INSERT INTO `role_has_permissions` VALUES (2,1);
+INSERT INTO `role_has_permissions` VALUES (1,2);
+INSERT INTO `role_has_permissions` VALUES (2,2);
+INSERT INTO `role_has_permissions` VALUES (3,2);
+INSERT INTO `role_has_permissions` VALUES (5,2);
+INSERT INTO `role_has_permissions` VALUES (6,2);
+INSERT INTO `role_has_permissions` VALUES (4,3);
+INSERT INTO `role_has_permissions` VALUES (5,3);
+INSERT INTO `role_has_permissions` VALUES (6,3);
 /*!40000 ALTER TABLE `role_has_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,7 +297,7 @@ CREATE TABLE `roles` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -226,9 +306,56 @@ CREATE TABLE `roles` (
 
 LOCK TABLES `roles` WRITE;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'Administración','web','2020-07-29 12:35:46','2020-07-29 12:35:46');
-INSERT INTO `roles` VALUES (2,'Doctor','web','2020-07-29 12:46:01','2020-07-29 15:46:24');
+INSERT INTO `roles` VALUES (1,'super_admin','web','2020-07-29 12:35:46','2020-08-18 13:44:12');
+INSERT INTO `roles` VALUES (2,'admin','web','2020-07-29 12:46:01','2020-08-18 13:44:47');
+INSERT INTO `roles` VALUES (3,'admin_add','web','2020-08-18 13:34:55','2020-08-18 13:34:55');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sessions`
+--
+
+DROP TABLE IF EXISTS `sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `sessions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `client_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sessions_user_id_foreign` (`user_id`),
+  CONSTRAINT `sessions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sessions`
+--
+
+LOCK TABLES `sessions` WRITE;
+/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+INSERT INTO `sessions` VALUES (1,1,'9049','2020-07-30 10:29:23','2020-07-30 10:29:23');
+INSERT INTO `sessions` VALUES (2,1,'9049','2020-07-31 12:27:38','2020-07-31 12:27:38');
+INSERT INTO `sessions` VALUES (3,1,'9049','2020-07-31 12:29:17','2020-07-31 12:29:17');
+INSERT INTO `sessions` VALUES (4,1,'9049','2020-08-01 05:00:42','2020-08-01 05:00:42');
+INSERT INTO `sessions` VALUES (5,1,'9049','2020-08-16 08:32:09','2020-08-16 08:32:09');
+INSERT INTO `sessions` VALUES (6,1,'9049','2020-08-16 08:36:15','2020-08-16 08:36:15');
+INSERT INTO `sessions` VALUES (7,2,'9049','2020-08-16 09:07:24','2020-08-16 09:07:24');
+INSERT INTO `sessions` VALUES (8,2,'9049','2020-08-16 09:19:30','2020-08-16 09:19:30');
+INSERT INTO `sessions` VALUES (9,2,'9049','2020-08-16 09:28:41','2020-08-16 09:28:41');
+INSERT INTO `sessions` VALUES (10,2,'9049','2020-08-16 09:37:12','2020-08-16 09:37:12');
+INSERT INTO `sessions` VALUES (11,2,'9049','2020-08-16 09:39:16','2020-08-16 09:39:16');
+INSERT INTO `sessions` VALUES (12,2,'9049','2020-08-16 09:39:46','2020-08-16 09:39:46');
+INSERT INTO `sessions` VALUES (13,2,'9049','2020-08-16 09:59:20','2020-08-16 09:59:20');
+INSERT INTO `sessions` VALUES (14,2,'9049','2020-08-16 09:59:51','2020-08-16 09:59:51');
+INSERT INTO `sessions` VALUES (15,2,'9049','2020-08-16 10:00:58','2020-08-16 10:00:58');
+INSERT INTO `sessions` VALUES (16,2,'9049','2020-08-16 10:01:58','2020-08-16 10:01:58');
+INSERT INTO `sessions` VALUES (17,2,'9049','2020-08-16 10:08:50','2020-08-16 10:08:50');
+INSERT INTO `sessions` VALUES (18,2,'9049','2020-08-16 10:09:21','2020-08-16 10:09:21');
+/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -244,12 +371,13 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +386,11 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Santiago','swever@correo.com',NULL,'$2y$10$jkuOTQe/g9AUZVtYUHRQ/OAZrSTfSMoybLpMRXmlLl2iY82HYz09u','aKovqDdvFDrvc6MDel1uTUsdScIns0B4czUJUlNBWAAVFk2KLlZaRLoEmDik','2020-07-28 11:53:40','2020-07-29 15:04:29');
+INSERT INTO `users` VALUES (1,'Santiago1','swever@correo.com',NULL,'$2y$10$jkuOTQe/g9AUZVtYUHRQ/OAZrSTfSMoybLpMRXmlLl2iY82HYz09u',0,'CNxanEwKIIW1HIGD82h1wv0M59agxlmMtsrqmZUWOj2TCIuau7oj5LPMYUD6','2020-07-28 11:53:40','2020-08-23 10:08:17');
+INSERT INTO `users` VALUES (2,'Santiago 2','swever2@correo.com',NULL,'$2y$10$/22c/mOM5yHNWWsGojoo8uwAawWfUPfNvyqkCQAKHjzDcGFqvUExG',0,NULL,'2020-08-16 14:47:43','2020-08-16 10:10:53');
+INSERT INTO `users` VALUES (3,'Santiago3','swever3@correo.com',NULL,'$2y$10$A/is7XeSJYejInxO01uGi.Cp4j1yh5McklpSct/vHedZxRsozz5IK',1,NULL,'2020-08-18 11:18:46','2020-08-18 11:18:46');
+INSERT INTO `users` VALUES (4,'Santiago 4','swever4@correo.com',NULL,'$2y$10$w6BHeFRD/Au/mEpNJ7kfUu260DHKH0gwPEp7/hIZJiaoyVZ09R0v.',1,NULL,'2020-08-18 11:24:03','2020-08-18 11:24:03');
+INSERT INTO `users` VALUES (5,'Santiago 5','swever5@correo.com',NULL,'$2y$10$D63HYQVjdYLxya16V3T43egJHn6gsNZgkpRIDOBI2zaUoIXfVVo7S',1,NULL,'2020-08-18 12:42:37','2020-08-18 12:42:37');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -791,4 +923,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-29 21:52:00
+-- Dump completed on 2020-08-23  9:51:16
