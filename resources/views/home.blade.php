@@ -113,11 +113,11 @@
         });
 
         api.on('participantKickedOut', function () {
-            releaseDr(api);
+            releaseDr(api, 2);
         });
 
         api.on('participantLeft', function () {
-            releaseDr(api);
+            releaseDr(api, 2);
         });
         
         window.addEventListener("beforeunload", evtListener);
@@ -137,22 +137,12 @@
             window.removeEventListener("beforeunload", evtListener);
         };
 
-        if ("<?php echo isset($in); ?>" && "<?php echo $actionAvailable; ?>")
-            setTimeout(releaseDr, 30000, api, 1);
+        releaseDr(api);
     }
 
     window.addEventListener('load', function () {
 
-        if ("<?php echo isset($in); ?>" && "<?php echo $actionAvailable; ?>") {
-
-                new Noty({
-                    layout: 'centerRight',
-                    type: 'alert',
-                    text: 'Un cliente en cola se le ha notificado de su disponibilidad. Por favor espere unos minutos mientras el cliente se conecta.',
-                    timeout: 3000
-                }).show();
-            
-        } else if ("<?php echo isset($out); ?>" && "<?php echo $value; ?>" == "err") {
+        if ("<?php echo isset($out); ?>" && "<?php echo $value; ?>" == "err") {
             
                 new Noty({
                     layout: 'centerRight',
@@ -170,39 +160,57 @@
 
             timeout = timeout || 0;
 
-            let text = "El paciente se ha desconectado.";
-            if (timeout)
-                text = "El tiempo de espera del paciente ha finalizado."
+            switch (timeout) {
+                case 0:
+                    notifyClient('');
+                    break;
 
-            axios({
-                method: 'post',
-                url: '/api/releaseDr',
-                data: { data : "<?php echo $dataDr; ?>" }
-            })
-            .then(function (response) {
-                new Noty({
-                    layout: 'centerRight',
-                    type: 'alert',
-                    text: text,
-                    timeout: 3000
-                }).show();
+                case 1:
+                    notifyClient("El tiempo de espera del paciente ha finalizado.");
+                    break;
 
-                if (response.data.status == 1) {
+                case 2:
+                    notifyClient("El paciente se ha desconectado.");
+                    break;
+            }
+
+            function notifyClient(text) {
+
+                if (text)
                     new Noty({
                         layout: 'centerRight',
                         type: 'alert',
-                        text: 'Un cliente en cola se le ha notificado de su disponibilidad. Por favor espere unos minutos mientras el cliente se conecta.',
+                        text: text,
                         timeout: 3000
                     }).show();
-                    
-                    setTimeout(releaseDr, 30000, api, 1);
-                }
-            })
-            .catch(function (error) {
-                window.removeEventListener("beforeunload", evtListener);
-                document.getElementById('outWithErr').submit()
-            });
-        }
+
+                axios({
+                    method: 'post',
+                    url: '/api/releaseDr',
+                    data: { data : "<?php echo $dataDr; ?>" }
+                })
+                .then(function (response) {
+
+                    if (response.data.status == 1) {
+                        new Noty({
+                            layout: 'centerRight',
+                            type: 'alert',
+                            text: 'Un cliente en cola se le ha notificado de su disponibilidad. Por favor espere unos segundos mientras el cliente se conecta.',
+                            timeout: 3000
+                        }).show();
+                        
+                        setTimeout(releaseDr, 30000, api, 1);
+                    }
+                })
+                .catch(function (error) {
+                    window.removeEventListener("beforeunload", evtListener);
+                    document.getElementById('outWithErr').submit()
+                });
+
+            }
+
+        } else if (api.getNumberOfParticipants() < 1)
+            setTimeout(releaseDr, 5000, api);
     }
 </script>
 

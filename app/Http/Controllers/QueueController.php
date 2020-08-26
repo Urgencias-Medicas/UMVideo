@@ -35,9 +35,9 @@ class QueueController extends Controller
                     ->first();
     }
 
-    public static function updateQueue($idUser, $status = 0)
+    public static function updateQueue($idUser, $order = 'asc')
     {
-        return Queue::where('idDevice', $idUser)->where('status', '<>', $status)->orderBy('id', 'desc')->limit(1)->update(['status' => $status]);
+        return Queue::where('idDevice', $idUser)->where('status', 1)->orderBy('id', $order)->limit(1)->update(['status' => 0]);
     }
 
     public static function insertToQueue($data)
@@ -51,7 +51,7 @@ class QueueController extends Controller
 
         if ($input->idUser) {
 
-            $result = QueueController::updateQueue($input->idUser);
+            $result = QueueController::updateQueue($input->idUser, 'desc');
 
             if ($result) {
 

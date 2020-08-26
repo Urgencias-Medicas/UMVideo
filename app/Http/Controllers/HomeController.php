@@ -28,7 +28,6 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $actionAvailable = '';
         $id_u = auth()->user()->id;
         $name_u = auth()->user()->name;
         date_default_timezone_set('America/Guatemala');
@@ -36,45 +35,12 @@ class HomeController extends Controller
         $dataDr = Helper::cryptR(array('idUser' => $id_u, 'nameUser' => $name_u, 'status' => 1), 1);
 
         $value = '';
-        if ($request->input('in')) {
-
-            $person = QueueController::getFirstInQueue();
-            if ($person) {
-
-                $data = array(
-                    'title' => "¡Un Doctor Está Listo Para Atenderte!",
-                    'body' => "Presiona aquí para entrar a la videollamada",
-                    'link' => 'https://video.excess.software/' . $roomName
-                );
-
-                $tokens = ClientController::getToken($person->idDevice);
-
-                if ($tokens) {
-
-                    foreach ($tokens as $user) {
-                        Helper::notify($user->token, $data);
-                    }
-
-                    $actionAvailable = 1;
-                    QueueController::updateQueue($person->idDevice);
-                    UserController::updateUser($id_u, 0);
-
-                    SessionController::newSession(array(
-                        'user_id' => $id_u,
-                        'client_id' => $person->idDevice
-                    ));
-                } else {
-                    UserController::updateUser($id_u, 1);
-                }
-            } else {
-                UserController::updateUser($id_u, 1);
-            }
-        } elseif ($request->input('out')) {
+        if ($request->input('out')) {
 
             $value = $request->input('out');
             UserController::updateUser($id_u, 0);
         }
 
-        return view('home', ['in' => $request->input('in'), 'out' => $request->input('out'), 'roomName' => $roomName, 'name_u' => $name_u, 'actionAvailable' => $actionAvailable, 'value' => $value, 'dataDr' => $dataDr]);
+        return view('home', ['in' => $request->input('in'), 'out' => $request->input('out'), 'roomName' => $roomName, 'name_u' => $name_u, 'value' => $value, 'dataDr' => $dataDr]);
     }
 }
