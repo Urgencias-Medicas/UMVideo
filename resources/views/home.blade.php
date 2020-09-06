@@ -110,14 +110,39 @@
                 text: 'Un paciente se acaba de conectar.',
                 timeout: 3000
             }).show();
+
+            api.executeCommand('startRecording', {
+                mode: 'file', //recording mode, either `file` or `stream`.
+                shouldShare: false //whether the recording should be shared with the participants or not. Only applies to certain jitsi meet deploys.
+            });
         });
 
         api.on('participantKickedOut', function () {
             releaseDr(api, 2);
+
+            api.executeCommand('stopRecording',
+                'file' //recording mode to stop, `stream` or `file`
+            );
+
+            axios({
+                method: 'post',
+                url: '/api/setRecInfo',
+                data: { data : "<?php echo $dataDr; ?>" }
+            });
         });
 
         api.on('participantLeft', function () {
             releaseDr(api, 2);
+
+            api.executeCommand('stopRecording',
+                'file' //recording mode to stop, `stream` or `file`
+            );
+
+            axios({
+                method: 'post',
+                url: '/api/setRecInfo',
+                data: { data : "<?php echo $dataDr; ?>" }
+            });
         });
         
         window.addEventListener("beforeunload", evtListener);
