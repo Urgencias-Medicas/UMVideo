@@ -132,7 +132,7 @@ class UserController extends Controller
                     $data = array(
                         'title' => "¡Un Doctor Está Listo Para Atenderte!",
                         'body' => "Presiona aquí para entrar a la videollamada",
-                        'link' => 'https://video.excess.software/' . sha1($id_u . "&%" . str_replace(" ", "&%", $name_u) . "&%" . date("l&%d&%m&%Y"))
+                        'link' => 'https://video.excess.software/' . sha1("&%" . str_replace(" ", "&%", $name_u) . "&%" . date("l&%d&%m&%Y")) . $id_u
                     );
 
                     $tokens = ClientController::getToken($person->idDevice);
