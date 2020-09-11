@@ -106,7 +106,6 @@ class ClientController extends Controller
 
             $result = Client::where('idUser', $input->idUser)
                             ->where('token', $input->token)
-                            ->limit(1)
                             ->update(['status' => 0]);
 
             $content = array(
