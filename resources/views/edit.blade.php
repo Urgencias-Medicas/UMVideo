@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header">{{ __('Editar ') . $object->name }}</div>
 
@@ -20,12 +20,14 @@
                             <table style="width:100%">
                                 <tr>
                                     <th>ID</th>
+                                    <th>Núm. Colegiado</th>
                                     <th>Nombre</th>
                                     <th>Correo</th>
                                     <th>Roles</th>
                                 </tr>
                                 <tr>
                                     <td>{{ $object->id }}<input type="hidden" name="id" value="{{ $object->id }}"/></td>
+                                    <td><input type="text" name="newMedNum" value="{{ $object->medicalNum }}" /></td>
                                     <td><input type="text" name="newName" value="{{ $object->name }}" /></td>
                                     <td><input type="text" name="newEmail" value="{{ $object->email }}" /></td>
                                     <td>
