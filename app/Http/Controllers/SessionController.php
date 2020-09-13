@@ -15,7 +15,7 @@ class SessionController extends Controller
 
     public static function getSession($idClient)
     {
-        return Session::select('user_id', 'name')
+        return Session::select('user_id', 'name', 'medicalNum')
                         ->leftJoin('users', 'sessions.user_id', '=', 'users.id')
                         ->where('client_id', $idClient)
                         ->orderBy('sessions.id', 'desc')
