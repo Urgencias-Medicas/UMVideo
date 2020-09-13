@@ -4,9 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <div class="col-12 row">
+                    <a class="btn btn-lg btn-link" href="/admin" >< {{ __('Atrás') }}</a>
+            </div>
             <div class="card">
                 <div class="card-header">{{ __('Editar ') . $object->name }}</div>
-
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -26,8 +28,16 @@
                                 </tr>
                                 <tr>
                                     <td>{{ $object->id }}<input type="hidden" name="id" value="{{ $object->id }}"/></td>
-                                    <td><input type="text" name="newName" value="{{ $object->name }}" /></td>
-                                    <td><input type="text" name="newEmail" value="{{ $object->email }}" /></td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="w-75 form-control" name="newName" value="{{ $object->name }}" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" name="newEmail" class="w-75 form-control" value="{{ $object->email }}" />
+                                        </div>
+                                    </td>
                                     <td>
                                         @foreach ($roles as $role)
                                             <input type="checkbox" id="role_{{ $role->id }}" name="roles_sel[]" value="{{ $role->id }}">
@@ -52,7 +62,11 @@
                                 </tr>
                                 <tr>
                                     <td>{{ $object->id }}<input type="hidden" name="id" value="{{ $object->id }}"/></td>
-                                    <td><input type="text" name="newName" value="{{ $object->name }}" /></td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" name="newName" class="w-75 form-control" value="{{ $object->name }}" />
+                                        </div>
+                                    </td>
                                     <td>
                                         @foreach ($perms as $perm)
                                             <input type="checkbox" id="perm_{{ $perm->id }}" name="perms_sel[]" value="{{ $perm->id }}">
@@ -70,12 +84,16 @@
                                 </tr>
                                 <tr>
                                     <td>{{ $object->id }}<input type="hidden" name="id" value="{{ $object->id }}"/></td>
-                                    <td><input type="text" name="newName" value="{{ $object->name }}" /></td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" name="newName" class="form-control" value="{{ $object->name }}" />
+                                        </div>
+                                    </td>
                                 </tr>
                             </table>
                         @endif
 
-                        <input type="submit" name="edt_btn" style="width:20%;" value="Editar {{ $title }}"/>
+                        <input type="submit" class="btn btn-primary" name="edt_btn" style="width:20%;" value="Editar {{ $title }}"/>
                     </form>
                 </div>
             </div>
