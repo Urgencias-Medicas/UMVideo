@@ -10,9 +10,31 @@ use App\Helpers\Helper;
 
 class UserController extends Controller
 {
+    public static function smartAPI($idUser, $medicalNum) {
+        $data = Helper::cryptR(
+            array(
+                array(
+                    "method" => "602",
+                    "IdUser" => $idUser,
+                    "MedicalNum" => $medicalNum
+                )
+            ), 1, 1);
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "http://umwsdl.smartla.net/wsdl_um.php",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => array('data' => $data),
+        ));
+
+        curl_exec($curl);
+    }
+
     public function getLink(Request $request)
     {
-        $person = User::select('id', 'name')
+        $person = User::select('id', 'name', 'medicalNum')
                     ->where('status', 1)
                     ->first();
 
@@ -23,6 +45,8 @@ class UserController extends Controller
 
             User::where('id', $person->id)
             ->update(['status' => 0]);
+
+            UserController::smartAPI($userID, $person->medicalNum);
 
             SessionController::newSession(array(
                 'user_id' => $person->id,
@@ -91,7 +115,7 @@ class UserController extends Controller
 
             if ($idClient->status) {
 
-                if (!isset($idClient->nameUser)) {
+                if (!isset($idClient->nameUser) || !isset($idClient->medNumUser)) {
 
                     $content = array(
                         'message' => "No se recibieron las variables correctas.",
@@ -105,12 +129,14 @@ class UserController extends Controller
 
                 $id_u = $idClient->idUser;
                 $name_u = $idClient->nameUser;
+                $medNum_u = $idClient->medNumUser;
 
             } else {
 
                 $userInfo = SessionController::getSession($idClient->idUser);
                 $id_u = $userInfo->user_id;
                 $name_u = $userInfo->name;
+                $medNum_u = $userInfo->medicalNum;
 
             }
 
@@ -145,6 +171,8 @@ class UserController extends Controller
 
                         QueueController::updateQueue($person->idDevice);
                         UserController::updateUser($id_u, 0);
+
+                        UserController::smartAPI($person->idDevice, $medNum_u);
 
                         SessionController::newSession(array(
                             'user_id' => $id_u,
