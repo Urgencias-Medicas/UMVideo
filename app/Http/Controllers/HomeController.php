@@ -32,7 +32,7 @@ class HomeController extends Controller
         $name_u = auth()->user()->name;
         date_default_timezone_set('America/Guatemala');
         $roomName = sha1("&%" . str_replace(" ", "&%", $name_u) . "&%" . date("l&%d&%m&%Y")) . $id_u;
-        $dataDr = Helper::cryptR(array('idUser' => $id_u, 'nameUser' => $name_u, 'status' => 1), 1);
+        $dataDr = Helper::cryptR(array('idUser' => $id_u, 'nameUser' => $name_u, 'medNumUser' => auth()->user()->medicalNum, 'status' => 1), 1);
 
         $value = '';
         if ($request->input('out')) {

@@ -53,6 +53,7 @@ class AdminController extends Controller
                 $user->syncRoles($request->input('roles_sel'));
 
                 $user->name = $request->input('newName');
+                $user->medicalNum = $request->input('newMedNum');
                 $user->email = $request->input('newEmail');
                 $user->save();
 
