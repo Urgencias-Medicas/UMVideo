@@ -80,4 +80,9 @@ class SessionController extends Controller
             return response()->json($data, 400);
         }
     }
+
+    public function recording(Request $request)
+    {
+        return view('recordings');
+    }
 }

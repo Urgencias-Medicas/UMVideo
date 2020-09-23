@@ -21,3 +21,4 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes(['register' => false]);
 
 Route::match(['get', 'post'], '/', 'HomeController@index')->name('home');
+Route::get('/recordings', 'SessionController@recording');
