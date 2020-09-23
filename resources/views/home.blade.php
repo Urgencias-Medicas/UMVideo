@@ -6,48 +6,43 @@
 </head>
 
 @section('content')
+<div class="container">
+    {{-- Greeting --}}
+    <h2><span id="greeting">Buenos dias</span> {{ Auth::user()->name }}</h2>
 
-{{-- Greeting --}}
-<h2 id="greeting">Buenos dias</h2>
-
-{{-- Buttons --}}
-<div class="">
-    @hasanyrole('super_admin|admin')
-        <form method="get" action="/admin" style="float: right;">
-            <button class="btn btn-secondary mb-3" type="submit">Página de Administración</button>
+    {{-- Buttons --}}
+    <div class="">
+        <form  method="post">
+            @csrf
+            @php
+            if (isset($in)) {
+                @endphp
+                    <button id="session"class="btn btn-secondary mb-3" name="out" type="submit" value="1">Terminar turno</button>
+                @php
+            } else {
+                @endphp
+                    <button id="session" class="btn btn-primary mb-3" name="in" type="submit" value="1">Iniciar turno</button>
+                @php
+            }
+            @endphp
         </form>
-    @endhasanyrole
-    <form  method="post">
+    </div>
+
+    {{-- Card and Jitsi --}}
+    <div class="card" style="height:700px; text-align: center;">
+        <div class="card-body" style="padding: 0px;">
+        <div id="meet" class="toolbox-button hidden"></div>
+            <div id="empty-card"style="padding:300px;">
+                <h4 id="" style="color: #B5C7E0" >No hay video llamadas en sesión.</h4>
+            <div>
+         </div>
+    </div>
+
+    <form method="post" id="outWithErr">
         @csrf
-        @php
-        if (isset($in)) {
-            @endphp
-                <button id="session"class="btn btn-secondary mb-3" name="out" type="submit" value="1">Terminar turno</button>
-            @php
-        } else {
-            @endphp
-                <button id="session" class="btn btn-primary mb-3" name="in" type="submit" value="1">Iniciar turno</button>
-            @php
-        }
-        @endphp
+        <input type="hidden" name="out" value="err">
     </form>
 </div>
-
-{{-- Card and Jitsi --}}
-<div class="card" style="height:700px; text-align: center;">  
-    <div class="card-body" style="padding: 0px;">
-    <div id="meet" class="toolbox-button hidden"></div>
-        <div id="empty-card"style="padding:300px;">
-            <h4 id="" style="color: #B5C7E0" >No hay video llamadas en sesión.</h4>
-        <div>
-     </div>
-</div>
-
-<form method="post" id="outWithErr">
-    @csrf
-    <input type="hidden" name="out" value="err">
-</form>
-
 <script>
     // Greeting
     var now = new Date();
@@ -75,7 +70,7 @@
 
         const domain = 'video.excess.software';
         const options = {
-            
+
             roomName: '<?php echo $roomName; ?>',
             width: "100%",
             height: 700,
@@ -100,7 +95,7 @@
         } else {
             x.style.display = "none";
         }
-                
+
         const api = new JitsiMeetExternalAPI(domain, options);
 
         api.on('participantJoined', function () {
@@ -144,7 +139,7 @@
                 data: { data : "<?php echo $dataDr; ?>" }
             });
         });
-        
+
         window.addEventListener("beforeunload", evtListener);
 
         document.getElementById('session').onclick = function() {
@@ -168,14 +163,14 @@
     window.addEventListener('load', function () {
 
         if ("<?php echo isset($out); ?>" && "<?php echo $value; ?>" == "err") {
-            
+
                 new Noty({
                     layout: 'centerRight',
                     type: 'error',
                     text: 'Hubo un error con la conexión. Favor iniciar turno nuevamente.',
                     timeout: 3000
                 }).show();
-            
+
         }
 
     })
@@ -223,7 +218,7 @@
                             text: 'Un cliente en cola se le ha notificado de su disponibilidad. Por favor espere unos segundos mientras el cliente se conecta.',
                             timeout: 3000
                         }).show();
-                        
+
                         setTimeout(releaseDr, 30000, api, 1);
                     }
                 })
