@@ -4,57 +4,49 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            @canany(['add_user', 'edit_users'])
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
                 <h3>{{ __('Sesiones') }}</h3>
-                @can('edit_users')
+                @can('view_sessions')
                     <table class="table table-light table-striped border rounded mb-5">
                         <tr>
                             <th>{{ __('ID') }}</th>
                             <th>{{ __('Doctor') }}</th>
                             <th>{{ __('Paciente') }}</th>
-                            <th>{{ __('Hora de Inicio') }}</th>
-                            <th>{{ __('Hora de Fin') }}</th>
+                            <th>{{ __('Estado') }}</th>
+                            <th>{{ __('Fecha de Inicio') }}</th>
+                            <th>{{ __('Fecha Fin') }}</th>
                             <th>{{ __('Grabación') }}</th>
                         </tr>
-                    @foreach ($users as $user)
+                    @foreach ($sessions as $session)
                         <form method="post" action="/edit">
                         @csrf
                             <tr>
                                 <td>
-                                    <p>1</p>
+                                    <?php echo $session->id; ?>
                                 </td>
                                 <td>
-                                   Juan Perez
+                                   <?php echo $session->doctor; ?>
                                 </td>
                                 <td>
-                                   Juan Perez
+                                   <?php echo $session->paciente; ?>
                                 </td>
                                 <td>
-                                   Juan Perez
+                                   <?php echo ($session->status == 0) ? "Error" : (($session->status == 1) ? "En proceso" : "Finalizado"); ?>
                                 </td>
                                 <td>
-                                   Juan Perez
+                                   <?php echo date_format(date_create($session->start_time), "d/m/Y - h:i:s a"); ?>
                                 </td>
                                 <td>
-                                    <a class="btn btn-link" href="https://www.google.com" target="_blank">Link</a>
+                                   <?php echo date_format(date_create($session->end_time), "d/m/Y - h:i:s a"); ?>
+                                </td>
+                                <td>
+                                    <a class="btn btn-link" href="https://umvideo.nyc3.digitaloceanspaces.com/<?php echo $session->recording; ?>.mp4" target="_blank">Grabación</a>
                                 </td>
                             </tr>
                         </form>
                     @endforeach
                     </table>
                 @endcan
-            @endcanany
         </div>
     </div>
-    @if (session('status'))
-        <div class="alert alert-success" role="alert">
-            {{ session('status') }}
-        </div>
-    @endif
 </div>
 @endsection
