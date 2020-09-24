@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Session;
+use App\User;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
 
 class SessionController extends Controller
 {
+    public function index()
+    {
+        $users = User::with('roles')->get();
+        return view('session', ['users' => $users]);
+    }
+
     public static function newSession($data)
     {
         return Session::create($data);
@@ -58,7 +65,7 @@ class SessionController extends Controller
 
                 $data = array('data' => Helper::cryptR($content, 1));
                 return response()->json($data, 200);
-            
+
             } else {
 
                 $content = array(

@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/admin', 'AdminController@index')->name('admin');
 Route::post('/create', 'AdminController@create');
 Route::post('/edit', 'AdminController@edit');
-
+Route::get('/session', 'SessionController@index')->name('session');
 Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('/register', 'Auth\RegisterController@register');
