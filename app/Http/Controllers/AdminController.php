@@ -79,6 +79,33 @@ class AdminController extends Controller
         } elseif ($request->input('user_id')) {
 
             $user = User::find($request->input('user_id'));
+
+            if ($request->input('activate')) {
+
+                $roles = $user->getRoleNames();
+
+                if (!array_search('super_admin', (array)$roles) && $user->id != auth()->user()->id)
+                    User::where('id', $request->input('user_id'))
+                        ->limit(1)
+                        ->update(['status' => 1]);
+
+                header('Location: /admin');
+                die;
+
+            } else if ($request->input('deactivate')) {
+
+                $roles = $user->getRoleNames();
+
+                if (!array_search('super_admin', (array)$roles) && $user->id != auth()->user()->id)
+                    User::where('id', $request->input('user_id'))
+                        ->limit(1)
+                        ->update(['status' => 0]);
+
+                header('Location: /admin');
+                die;
+
+            }
+
             $roles = Role::all();
 
             return view('edit', ['title' => 'Usuario', 'roles' => $roles, 'object' => $user]);

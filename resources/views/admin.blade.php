@@ -39,6 +39,9 @@
                                 </td>
                                 <td>
                                     <input class="btn btn-link" type="submit" value="{{ __('Editar') }}">
+                                    @if ($role->name != 'super_admin' && $user->id != auth()->user()->id)
+                                        <input class="btn btn-link" name="{{ ($user->status) ? 'deactivate' : 'activate' }}" type="submit" value="{{ ($user->status) ? __('Desactivar') : __('Activar') }}"/>
+                                    @endif
                                 </td>
                             </tr>
                         </form>
