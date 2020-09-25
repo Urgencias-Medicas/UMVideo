@@ -10,17 +10,17 @@
                         {{ session('status') }}
                     </div>
                 @endif
-                <h3>Usuarios</h3>
+                <h3>{{ __('Usuarios') }}</h3>
                 @can('add_user')
                     <a class="btn btn-primary mb-2 float-right" href="{{ route('register') }}">{{ __('Agregar Usuario') }}</a>
                 @endcan
                 @can('edit_users')
                     <table class="table table-light table-striped border rounded mb-5">
                         <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Roles</th>
-                            <th>Acción</th>
+                            <th>{{ __('ID') }}</th>
+                            <th>{{ __('Nombre') }}</th>
+                            <th>{{ __('Roles') }}</th>
+                            <th>{{ __('Acción') }}</th>
                         </tr>
                     @foreach ($users as $user)
                         <form method="post" action="/edit">
@@ -38,7 +38,7 @@
                                     @endforeach
                                 </td>
                                 <td>
-                                    <input class="btn btn-link" type="submit" value="Editar">
+                                    <input class="btn btn-link" type="submit" value="{{ __('Editar') }}">
                                 </td>
                             </tr>
                         </form>
@@ -57,8 +57,8 @@
                 @csrf
                 @can('add_role')
                 <div class="form-group">
-                    <input class="form-control" id="role" type="text" placeholder="Escribir Rol" name="new_role"/>
-                    <input class="w-25 form-control btn btn-primary my-2 float-right" type="submit" name="crt_role" value="Crear Rol"/>
+                    <input class="form-control" id="role" type="text" placeholder="{{ __('Escribir Rol') }}" name="new_role"/>
+                    <input class="w-25 form-control btn btn-primary my-2 float-right" type="submit" name="crt_role" value="{{ __('Crear Rol') }}"/>
                 </div>
                 @endcan
             </form>
@@ -66,9 +66,9 @@
             @can('edit_roles')
             <table class="table table-light table-striped border rounded mb-5">
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Acción</th>
+                    <th>{{ __('ID') }}</th>
+                    <th>{{ __('Nombre') }}</th>
+                    <th>{{ __('Acción') }}</th>
                 </tr>
                 @foreach ($roles as $role)
                     <form method="post" action="/edit">
@@ -77,7 +77,7 @@
                             <td>{{ $role->id }}<input type="hidden" name="role_id" value="{{ $role->id }}"/></td>
                             <td>{{ $role->name }}</td>
                             <td>
-                                <input class="btn btn-link" type="submit" value="Editar"/>
+                                <input class="btn btn-link" type="submit" value="{{ __('Editar') }}"/>
                             </td>
                         </tr>
                     </form>
@@ -93,8 +93,8 @@
                 @csrf
                 @can('add_permission')
                 <div class="form-group">
-                    <input class="form-control" id="perm" type="text" placeholder="Crear Permisos" name="new_perm"/>
-                    <input class="w-25 form-control btn btn-primary my-2 float-right" type="submit" name="crt_perm" value="Crear Permisos"/>
+                    <input class="form-control" id="perm" type="text" placeholder="{{ __('Crear Permisos') }}" name="new_perm"/>
+                    <input class="w-25 form-control btn btn-primary my-2 float-right" type="submit" name="crt_perm" value="{{ __('Crear Permisos') }}"/>
                 </div>
                 @endcan
             </form>
@@ -102,9 +102,9 @@
             @can('edit_permissions')
             <table class="table table-light table-striped border rounded mb-5">
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Acción</th>
+                    <th>{{ __('ID') }}</th>
+                    <th>{{ __('Nombre') }}</th>
+                    <th>{{ __('Acción') }}</th>
                 </tr>
                 @foreach ($permissions as $permission)
                     <form method="post" action="/edit">
@@ -113,7 +113,7 @@
                             <td>{{ $permission->id }}<input type="hidden" name="perm_id" value="{{ $permission->id }}"/></td>
                             <td>{{ $permission->name }}</td>
                             <td>
-                                <input class="btn btn-link" type="submit" value="Editar"/>
+                                <input class="btn btn-link" type="submit" value="{{ __('Editar') }}"/>
                             </td>
                         </tr>
                     </form>
