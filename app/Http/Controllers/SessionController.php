@@ -12,7 +12,9 @@ class SessionController extends Controller
     {
         $sessions = Session::select('sessions.id as id', 'users.name as doctor','client_id as paciente', 'sessions.status as status', 'sessions.created_at as start_time', 'sessions.updated_at as end_time', 'rec_name as recording')
                             ->leftJoin('users', 'sessions.user_id', '=', 'users.id')
+                            ->orderBy('sessions.id', 'desc')
                             ->get();
+
         return view('session', ['sessions' => $sessions]);
     }
 
