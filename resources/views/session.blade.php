@@ -39,7 +39,7 @@
                                    <?php echo date_format(date_create($session->end_time), "d/m/Y - h:i:s a"); ?>
                                 </td>
                                 <td>
-                                    <a class="btn btn-link" href="https://umvideo.nyc3.digitaloceanspaces.com/<?php echo $session->recording; ?>.mp4" target="_blank">Grabación</a>
+                                    <a class="btn btn-link" href="https://umvideo.nyc3.digitaloceanspaces.com/<?php echo $session->recording; ?>" target="_blank">Grabación</a>
                                 </td>
                             </tr>
                         </form>
