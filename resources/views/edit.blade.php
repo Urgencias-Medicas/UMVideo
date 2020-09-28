@@ -33,9 +33,9 @@
                                     <td>{{ $object->id }}<input type="hidden" name="id" value="{{ $object->id }}"/></td>
 
 
-                                    <td><div class="form-group"><input type="text" class="w-75 form-control" name="newMedNum" value="{{ $object->medicalNum }}" /></div></td>
-                                    <td><div class="form-group"><input type="text" class="w-75 form-control" name="newName" value="{{ $object->name }}" /></div></td>
-                                    <td><div class="form-group"><input type="text" class="w-75 form-control" name="newEmail" value="{{ $object->email }}" /></div></td>
+                                    <td><div class="form-group"><input type="text" class="w-75 form-control" name="newMedNum" value="{{ $object->medicalNum }}" required/></div></td>
+                                    <td><div class="form-group"><input type="text" class="w-75 form-control" name="newName" value="{{ $object->name }}" required/></div></td>
+                                    <td><div class="form-group"><input type="text" class="w-75 form-control" name="newEmail" value="{{ $object->email }}" required/></div></td>
 
                                     <td>
                                         @foreach ($roles as $role)
