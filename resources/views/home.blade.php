@@ -110,6 +110,12 @@
                 mode: 'file', //recording mode, either `file` or `stream`.
                 shouldShare: false //whether the recording should be shared with the participants or not. Only applies to certain jitsi meet deploys.
             });
+            
+            axios({
+                method: 'post',
+                url: '/api/setRecInfo',
+                data: { data : "<?php echo $dataDr; ?>" }
+            });
         });
 
         api.on('participantKickedOut', function () {
@@ -118,12 +124,6 @@
             api.executeCommand('stopRecording',
                 'file' //recording mode to stop, `stream` or `file`
             );
-
-            axios({
-                method: 'post',
-                url: '/api/setRecInfo',
-                data: { data : "<?php echo $dataDr; ?>" }
-            });
         });
 
         api.on('participantLeft', function () {
@@ -132,12 +132,6 @@
             api.executeCommand('stopRecording',
                 'file' //recording mode to stop, `stream` or `file`
             );
-
-            axios({
-                method: 'post',
-                url: '/api/setRecInfo',
-                data: { data : "<?php echo $dataDr; ?>" }
-            });
         });
 
         window.addEventListener("beforeunload", evtListener);
