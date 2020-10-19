@@ -180,7 +180,18 @@
                     break;
 
                 case 1:
-                    notifyClient("El tiempo de espera del paciente ha finalizado.");
+                    axios({
+                        method: 'post',
+                        url: '/api/setRecInfo',
+                        data: { data : "<?php echo $dataDr; ?>", status : 1 }
+                    })
+                    .then(function (response) {
+                        notifyClient("El tiempo de espera del paciente ha finalizado.");
+                    })
+                    .catch(function (error) {
+                        window.removeEventListener("beforeunload", evtListener);
+                        document.getElementById('outWithErr').submit()
+                    });
                     break;
 
                 case 2:
