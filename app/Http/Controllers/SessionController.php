@@ -56,11 +56,24 @@ class SessionController extends Controller
 
             } elseif (isset($input->idUser)) {
 
-                $result = Session::where('user_id', $input->idUser)
-                                    ->where('status', 0)
-                                    ->orderBy('id', 'desc')
-                                    ->limit(1)
-                                    ->update(['status' => 1]);
+                $result = 0;
+                if ($request->input('status')) {
+
+                    $result = Session::where('user_id', $input->idUser)
+                                        ->where('status', 0)
+                                        ->orderBy('id', 'desc')
+                                        ->limit(1)
+                                        ->update(['status' => 3]);
+
+                } else {
+
+                    $result = Session::where('user_id', $input->idUser)
+                                        ->where('status', 0)
+                                        ->orderBy('id', 'desc')
+                                        ->limit(1)
+                                        ->update(['status' => 1]);
+
+                }
 
                 $content = array(
                     'status' => $result
