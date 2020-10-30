@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\QueueController;
-use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\SessionController;
+use App\Http\Controllers\ShiftController;
 use App\Helpers\Helper;
 
 class HomeController extends Controller
@@ -39,6 +37,10 @@ class HomeController extends Controller
 
             $value = $request->input('out');
             UserController::updateUser($id_u, 0);
+            ShiftController::create(['user_id' => $id_u, 'status' => 0]);
+
+        } elseif ($request->input('in')) {
+            ShiftController::create(['user_id' => $id_u]);
         }
 
         return view('home', ['in' => $request->input('in'), 'out' => $request->input('out'), 'roomName' => $roomName, 'name_u' => $name_u, 'value' => $value, 'dataDr' => $dataDr]);
