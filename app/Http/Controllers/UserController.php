@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Http\Controllers\QueueController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\ShiftController;
 use App\Helpers\Helper;
 
 class UserController extends Controller
@@ -110,6 +111,17 @@ class UserController extends Controller
     public static function releaseUser(Request $request)
     {
         $idClient = Helper::cryptR($request->input('data'), 0);
+
+        if ($request->input('pause')) {
+
+            $result = UserController::updateUser($idClient->idUser, 2);
+            ShiftController::create(['user_id' => $idClient->idUser, 'status' => 2]);
+
+            return response()->json($result, 200);
+        }
+
+        if ($request->input('start'))
+            ShiftController::create(['user_id' => $idClient->idUser, 'status' => 3]);
 
         if (isset($idClient->idUser) && isset($idClient->status)) {
 
