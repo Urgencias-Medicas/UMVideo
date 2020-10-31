@@ -17,7 +17,8 @@
             @php
             if (isset($in)) {
                 @endphp
-                    <button id="session"class="btn btn-secondary mb-3" name="out" type="submit" value="1">Terminar turno</button>
+                    <button id="session" class="btn btn-secondary mb-3" name="out" type="submit" value="1">Terminar turno</button>
+                    <button id="shift" class="btn btn-secondary mb-3" type="button" value="0">Pausar</button>
                 @php
             } else {
                 @endphp
@@ -44,6 +45,7 @@
     </form>
 </div>
 <script>
+    let pause = 0;
     // Greeting
     var now = new Date();
     var hrs = now.getHours();
@@ -119,7 +121,20 @@
         });
 
         api.on('participantKickedOut', function () {
-            releaseDr(api, 2);
+            if (pause) {
+                pause = 0;
+
+                new Noty({
+                    layout: 'centerRight',
+                    type: 'alert',
+                    text: "El paciente se ha desconectado.",
+                    timeout: 3000
+                }).show();
+
+                pauseSession(api);
+            } else {
+                releaseDr(api, 2);
+            }
 
             api.executeCommand('stopRecording',
                 'file' //recording mode to stop, `stream` or `file`
@@ -127,7 +142,20 @@
         });
 
         api.on('participantLeft', function () {
-            releaseDr(api, 2);
+            if (pause) {
+                pause = 0;
+
+                new Noty({
+                    layout: 'centerRight',
+                    type: 'alert',
+                    text: "El paciente se ha desconectado.",
+                    timeout: 3000
+                }).show();
+
+                pauseSession(api);
+            } else {
+                releaseDr(api, 2);
+            }
 
             api.executeCommand('stopRecording',
                 'file' //recording mode to stop, `stream` or `file`
@@ -152,6 +180,10 @@
         };
 
         releaseDr(api);
+        
+        document.getElementById('shift').onclick = function() {
+            pauseSession(api);
+        }
     }
 
     window.addEventListener('load', function () {
@@ -197,6 +229,31 @@
                 case 2:
                     notifyClient("El paciente se ha desconectado.");
                     break;
+
+                case 3:
+                    axios({
+                        method: 'post',
+                        url: '/api/releaseDr',
+                        data: { data : "<?php echo $dataDr; ?>", start : 1 }
+                    })
+                    .then(function (response) {
+
+                        if (response.data.status == 1) {
+                            new Noty({
+                                layout: 'centerRight',
+                                type: 'alert',
+                                text: 'Un cliente en cola se le ha notificado de su disponibilidad. Por favor espere unos segundos mientras el cliente se conecta.',
+                                timeout: 3000
+                            }).show();
+
+                            setTimeout(releaseDr, 30000, api, 1);
+                        }
+                    })
+                    .catch(function (error) {
+                        window.removeEventListener("beforeunload", evtListener);
+                        document.getElementById('outWithErr').submit()
+                    });
+                    break;
             }
 
             function notifyClient(text) {
@@ -236,6 +293,77 @@
 
         } else if (api.getNumberOfParticipants() < 1)
             setTimeout(releaseDr, 5000, api);
+    }
+
+    function pauseSession(api) {
+
+        let shiftBtn = document.getElementById('shift');
+
+        if (api.getNumberOfParticipants() > 1) {
+
+            pause = 1;
+
+            new Noty({
+                layout: 'centerRight',
+                type: 'warning',
+                text: 'Se pausará la sesión cuando el cliente cuelgue la llamada.',
+                timeout: 3000
+            }).show();
+
+        } else if (Number(shiftBtn.value)) {
+
+            releaseDr(api, 3);
+
+            document.getElementById('session').removeAttribute('style');
+
+            shiftBtn.innerHTML = "Pausar";
+            shiftBtn.value = "0";
+            shiftBtn.className = "btn btn-secondary mb-3";
+
+            new Noty({
+                layout: 'centerRight',
+                type: 'success',
+                text: 'Su sesión se ha renaudado exitosamente.',
+                timeout: 3000
+            }).show();
+
+        } else {
+            
+            axios({
+                    method: 'post',
+                    url: '/api/releaseDr',
+                    data: { data : "<?php echo $dataDr; ?>", pause : 1 }
+            })
+            .then(function (response) {
+
+                if (response.data == 1) {
+
+                    document.getElementById('session').style.display = "none";
+
+                    shiftBtn.innerHTML = "Renaudar";
+                    shiftBtn.value = "1";
+                    shiftBtn.className = "btn btn-primary mb-3";
+
+                    new Noty({
+                        layout: 'centerRight',
+                        type: 'success',
+                        text: 'Su sesión se ha pausado exitosamente.',
+                        timeout: 3000
+                    }).show();
+
+                } else {
+
+                    new Noty({
+                        layout: 'centerRight',
+                        type: 'error',
+                        text: 'La sesión NO fue pausado por un error. Pruebe nuevamente.',
+                        timeout: 3000
+                    }).show();
+
+                }
+            });
+        }
+        
     }
 </script>
 
