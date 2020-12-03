@@ -185,7 +185,7 @@
             pauseSession(api);
         }
 
-        document.getElementById('navbarDropdown').onclick = function(){
+        /*document.getElementById('navbarDropdown').onclick = function(){
             document.getElementById('jitsiConferenceFrame0').onload = function(){
                 var iframe = document.getElementById('jitsiConferenceFrame0');
                 var element = iframe.contentWindow.document.getElementsByName('jqi_state0_buttonspandatai18ndialogIamHostYosoyelanfitrinspan')[0];
@@ -199,7 +199,7 @@
             //document.element.onclick = function (){
             //    alert('test iframe');
             //}
-        } 
+        } */
     }
 
     window.addEventListener('load', function () {
