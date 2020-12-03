@@ -184,6 +184,22 @@
         document.getElementById('shift').onclick = function() {
             pauseSession(api);
         }
+
+        document.getElementById('navbarDropdown').onclick = function(){
+            document.getElementById('jitsiConferenceFrame0').onload = function(){
+                var iframe = document.getElementById('jitsiConferenceFrame0');
+                var element = iframe.contentWindow.document.getElementsByName('jqi_state0_buttonspandatai18ndialogIamHostYosoyelanfitrinspan')[0];
+                elmnt.style.display = "none";
+            }
+        }
+
+        document.getElementById('jitsiConferenceFrame0').onload = function(){
+            var iframe = document.getElementById('jitsiConferenceFrame0');
+            var element = iframe.contentWindow.document.getElementsByName('jqi_state0_buttonspandatai18ndialogIamHostYosoyelanfitrinspan');
+            //document.element.onclick = function (){
+            //    alert('test iframe');
+            //}
+        } 
     }
 
     window.addEventListener('load', function () {
@@ -340,7 +356,7 @@
 
                     document.getElementById('session').style.display = "none";
 
-                    shiftBtn.innerHTML = "Renaudar";
+                    shiftBtn.innerHTML = "Reanudar";
                     shiftBtn.value = "1";
                     shiftBtn.className = "btn btn-primary mb-3";
 
@@ -356,7 +372,7 @@
                     new Noty({
                         layout: 'centerRight',
                         type: 'error',
-                        text: 'La sesión NO fue pausado por un error. Pruebe nuevamente.',
+                        text: 'La sesión NO fue pausada por un error. Pruebe nuevamente.',
                         timeout: 3000
                     }).show();
 
@@ -364,7 +380,8 @@
             });
         }
         
-    }
+    }  
+
 </script>
 
 @endsection
