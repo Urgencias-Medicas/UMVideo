@@ -43,6 +43,21 @@ class HomeController extends Controller
             ShiftController::create(['user_id' => $id_u]);
         }
 
-        return view('home', ['in' => $request->input('in'), 'out' => $request->input('out'), 'roomName' => $roomName, 'name_u' => $name_u, 'value' => $value, 'dataDr' => $dataDr]);
+        //generation of JWT
+        $jwt_header = json_encode(['alg' => 'HS256', 'typ' => 'JWT']);
+
+        $jwt_payload = json_encode(['aud' => '00snzhms88', 'iss' => '00snzhms88', 'sub' => 'videos.excess.software', 'room' => $roomName]);
+
+        $base64UrlHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($jwt_header));
+
+        $base64UrlPayload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($jwt_payload));
+
+        $jwt_signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, 'wu099lcj7dgpg99', true);
+
+        $base64UrlSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($jwt_signature));
+
+        $jwt = $base64UrlHeader.".".$base64UrlPayload.".".$base64UrlSignature;
+
+        return view('home', ['in' => $request->input('in'), 'out' => $request->input('out'), 'roomName' => $roomName, 'jwt' => $jwt, 'name_u' => $name_u, 'value' => $value, 'dataDr' => $dataDr]);
     }
 }

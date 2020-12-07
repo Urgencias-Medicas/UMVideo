@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 <head>
-    <script src='https://video.excess.software/external_api.js'></script>
+    <script src='https://videos.excess.software/external_api.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
@@ -70,9 +70,9 @@
 
     if ("<?php echo isset($in); ?>") {
 
-        const domain = 'video.excess.software';
+        const domain = 'videos.excess.software';
         const options = {
-
+            jwt: '<?php echo $jwt; ?>',
             roomName: '<?php echo $roomName; ?>',
             width: "100%",
             height: 700,
@@ -191,15 +191,24 @@
                 var element = iframe.contentWindow.document.getElementsByName('jqi_state0_buttonspandatai18ndialogIamHostYosoyelanfitrinspan')[0];
                 elmnt.style.display = "none";
             }
-        }
+        }*/
 
         document.getElementById('jitsiConferenceFrame0').onload = function(){
             var iframe = document.getElementById('jitsiConferenceFrame0');
-            var element = iframe.contentWindow.document.getElementsByName('jqi_state0_buttonspandatai18ndialogIamHostYosoyelanfitrinspan');
+            iframe.setAttribute("crossorigin", "anonymous");
+            $(this).contents().find('body').append('<scr' + 'ipt type="text/javascript" src="{{asset('js/iframe.js')}}"></scr' + 'ipt>');
+            console.log('done');
+            var iFrameHead = window.frames["jitsiConferenceFrame0"].document.getElementsByTagName("head")[0];         
+            var myscript = document.createElement('script');
+            myscript.type = 'text/javascript';
+            myscript.src = '{{asset('js/iframe.js')}}'; // replace this with your SCRIPT
+            iFrameHead.appendChild(myscript);
+            console.log('donee');
+            //var element = iframe.contentWindow.document.getElementsByName('jqi_state0_buttonspandatai18ndialogIamHostYosoyelanfitrinspan');
             //document.element.onclick = function (){
             //    alert('test iframe');
             //}
-        } */
+        }
     }
 
     window.addEventListener('load', function () {
