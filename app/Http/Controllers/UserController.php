@@ -58,7 +58,7 @@ class UserController extends Controller
             $content = array(
                 'waitCount' => 0,
                 'waitTime' => 0,
-                'link' => 'https://video.excess.software/' . sha1("&%" . str_replace(" ", "&%", $person->name) . "&%" . date("l&%d&%m&%Y")) . $person->id,
+                'link' => 'https://videos.excess.software/' . sha1("&%" . str_replace(" ", "&%", $person->name) . "&%" . date("l&%d&%m&%Y")) . $person->id,
                 'status' => 1
             );
 
