@@ -43,7 +43,7 @@ class HomeController extends Controller
             ShiftController::create(['user_id' => $id_u]);
         }
 
-        //generation of JWT
+        //JWT
         $jwt_header = json_encode(['alg' => 'HS256', 'typ' => 'JWT']);
 
         $jwt_payload = json_encode(['aud' => '00snzhms88', 'iss' => '00snzhms88', 'sub' => 'videos.excess.software', 'room' => $roomName]);

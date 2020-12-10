@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Session;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
+use Storage;
 
 class SessionController extends Controller
 {
@@ -38,6 +39,19 @@ class SessionController extends Controller
 
             $input = Helper::cryptR($request->input('data'), 0);
 
+            $json = array(
+                "idUser" => "23",
+                "recFile" => "8886166a8c4cecf5d6160bf767bf25b8f4a139ef23_2020-11-24-22-49-31.mp4",
+            );
+
+            //return var_dump($input->idUser);
+
+            $json_crypt = Helper::cryptR($json, 1);
+
+            //return $json_crypt;
+
+            //return var_dump(Helper::cryptR('ckJkaWpqVjNBWWJNRTI0UjNOYlNiUT09', 0));
+
             if (isset($input->idUser) && isset($input->recFile)) {
 
                 $result = Session::where('user_id', $input->idUser)
@@ -52,7 +66,10 @@ class SessionController extends Controller
                 );
 
                 $data = array('data' => Helper::cryptR($content, 1));
-                return response()->json($data, 200);
+
+                Storage::put($input->idUser.'.txt', json_encode($content).'\n'.json_encode($input));
+
+                return response()->json($content, 200);
 
             } elseif (isset($input->idUser)) {
 

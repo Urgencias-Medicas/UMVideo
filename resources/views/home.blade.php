@@ -254,7 +254,6 @@
                 case 2:
                     notifyClient("El paciente se ha desconectado.");
                     break;
-
                 case 3:
                     axios({
                         method: 'post',
