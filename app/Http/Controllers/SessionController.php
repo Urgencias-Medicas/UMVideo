@@ -34,7 +34,10 @@ class SessionController extends Controller
     }
 
     public function setRecording(Request $request)
-    {
+    {   
+
+        Storage::put('test-input.txt', $request->input('data'));
+
         if ($request->input('data')) {
 
             $input = Helper::cryptR($request->input('data'), 0);
