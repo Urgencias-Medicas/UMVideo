@@ -31,3 +31,5 @@ Route::POST('releaseDr', 'UserController@releaseUser');
 Route::POST('signOut', 'ClientController@closeSessionClient');
 
 Route::POST('setRecInfo', 'SessionController@setRecording');
+
+Route::GET('testApi/{test}', 'SessionController@testApi');

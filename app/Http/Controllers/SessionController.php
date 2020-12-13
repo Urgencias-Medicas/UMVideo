@@ -40,13 +40,15 @@ class SessionController extends Controller
             $input = Helper::cryptR($request->input('data'), 0);
 
             $json = array(
-                "idUser" => "23",
+                "idUser" => "31",
                 "recFile" => "8886166a8c4cecf5d6160bf767bf25b8f4a139ef23_2020-11-24-22-49-31.mp4",
             );
 
-            //return var_dump($input->idUser);
+            //return var_dump($input);
 
             $json_crypt = Helper::cryptR($json, 1);
+
+            Storage::put($input->idUser.'.txt', json_encode($input));
 
             //return $json_crypt;
 
@@ -66,8 +68,6 @@ class SessionController extends Controller
                 );
 
                 $data = array('data' => Helper::cryptR($content, 1));
-
-                Storage::put($input->idUser.'.txt', json_encode($content).'\n'.json_encode($input));
 
                 return response()->json($content, 200);
 
@@ -119,5 +119,12 @@ class SessionController extends Controller
             $data = array('data' => Helper::cryptR($content, 1));
             return response()->json($data, 400);
         }
+    }
+
+    public function testApi($test){
+        
+        Storage::put('test.txt', $test);
+
+        return 'test done';
     }
 }
