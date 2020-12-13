@@ -48,7 +48,7 @@ class SessionController extends Controller
 
             $json_crypt = Helper::cryptR($json, 1);
 
-            Storage::put($input->idUser.'.txt', json_encode($input));
+            Storage::put($input->idUser.'-test.txt', json_encode($input));
 
             //return $json_crypt;
 
@@ -122,7 +122,7 @@ class SessionController extends Controller
     }
 
     public function testApi($test){
-        
+
         Storage::put('test.txt', $test);
 
         return 'test done';
