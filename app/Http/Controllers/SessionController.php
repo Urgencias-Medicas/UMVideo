@@ -36,11 +36,13 @@ class SessionController extends Controller
     public function setRecording(Request $request)
     {   
 
-        Storage::put('test-input.txt', $request->input('data'));
+        Storage::put('test-input.txt', $request->data);
 
         if ($request->input('data')) {
 
             $input = Helper::cryptR($request->input('data'), 0);
+
+            Storage::put($input->idUser.'-test.txt', json_encode($input));
 
             $json = array(
                 "idUser" => "31",
@@ -50,8 +52,6 @@ class SessionController extends Controller
             //return var_dump($input);
 
             $json_crypt = Helper::cryptR($json, 1);
-
-            Storage::put($input->idUser.'-test.txt', json_encode($input));
 
             //return $json_crypt;
 
