@@ -40,6 +40,7 @@ class UserController extends Controller
                     ->first();
 
         $userID = Helper::cryptR($request->input('data'), 0);
+        
         $timeInQueue = QueueController::clientInQueue($userID);
 
         if ($person) {
@@ -64,7 +65,7 @@ class UserController extends Controller
 
             $data = array('data' => Helper::cryptR($content, 1));
 
-            return response()->json($data, 200);
+            return response()->json($content, 200);
 
         } elseif ($timeInQueue) {
 

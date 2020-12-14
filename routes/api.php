@@ -33,3 +33,5 @@ Route::POST('signOut', 'ClientController@closeSessionClient');
 Route::POST('setRecInfo', 'SessionController@setRecording');
 
 Route::GET('testApi/{test}', 'SessionController@testApi');
+
+Route::GET('cryptId/{id}', 'SessionController@cryptId');

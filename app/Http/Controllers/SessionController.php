@@ -47,7 +47,7 @@ class SessionController extends Controller
                 "recFile" => "8886166a8c4cecf5d6160bf767bf25b8f4a139ef23_2020-11-24-22-49-31.mp4",
             );
 
-            //return var_dump($input);
+            return var_dump($input);
 
             $json_crypt = Helper::cryptR($json, 1);
 
@@ -129,5 +129,19 @@ class SessionController extends Controller
         Storage::put('test.txt', $test);
 
         return 'test done';
+    }
+
+    public function cryptId($id){
+        $json = array(
+            $id
+        );
+
+        $json_crypt = Helper::cryptR($id, 1);
+
+
+
+        return $json_crypt;
+
+        //return var_dump(Helper::cryptR('ckJkaWpqVjNBWWJNRTI0UjNOYlNiUT09', 0));
     }
 }
