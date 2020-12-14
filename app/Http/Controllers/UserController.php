@@ -81,7 +81,7 @@ class UserController extends Controller
 
             $data = array('data' => Helper::cryptR($content, 1));
 
-            return response()->json($data, 200);
+            return response()->json($content, 200);
 
         } else {
 
@@ -99,7 +99,7 @@ class UserController extends Controller
 
             $data = array('data' => Helper::cryptR($content, 1));
 
-            return response()->json($data, 200);
+            return response()->json($content, 200);
 
         }
     }
