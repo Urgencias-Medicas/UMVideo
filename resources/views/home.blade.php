@@ -112,6 +112,19 @@
                 mode: 'file', //recording mode, either `file` or `stream`.
                 shouldShare: false //whether the recording should be shared with the participants or not. Only applies to certain jitsi meet deploys.
             });
+
+            //api.executeCommand('getParticipants', jitsiGetParticipants());
+            var participants = api.getParticipantsInfo();
+
+            console.log(participants);
+
+            console.log(participants.length);
+
+            console.log('Esto es una prueba de cuando ingresa.');
+
+            if(participants.length > 2){
+                console.log(participants[participants.length-1].participantId);
+            }
             
             axios({
                 method: 'post',
@@ -270,7 +283,7 @@
                                 timeout: 3000
                             }).show();
 
-                            setTimeout(releaseDr, 30000, api, 1);
+                            setTimeout(releaseDr, 60000, api, 1);
                         }
                     })
                     .catch(function (error) {
@@ -305,7 +318,7 @@
                             timeout: 3000
                         }).show();
 
-                        setTimeout(releaseDr, 30000, api, 1);
+                        setTimeout(releaseDr, 60000, api, 1);
                     }
                 })
                 .catch(function (error) {
