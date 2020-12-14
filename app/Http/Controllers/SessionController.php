@@ -36,7 +36,7 @@ class SessionController extends Controller
     public function setRecording(Request $request)
     {   
 
-        Storage::put('test-input.txt', $request->input('data'));
+        //Storage::put('test-input.txt', $request->input('data'));
 
         if ($request->input('data')) {
 
@@ -47,7 +47,7 @@ class SessionController extends Controller
                 "recFile" => "8886166a8c4cecf5d6160bf767bf25b8f4a139ef23_2020-11-24-22-49-31.mp4",
             );
 
-            return var_dump($input);
+            //return var_dump($input);
 
             $json_crypt = Helper::cryptR($json, 1);
 
