@@ -42,8 +42,6 @@ class SessionController extends Controller
 
             $input = Helper::cryptR($request->input('data'), 0);
 
-            Storage::put($input->idUser.'-test.txt', json_encode($input));
-
             $json = array(
                 "idUser" => "31",
                 "recFile" => "8886166a8c4cecf5d6160bf767bf25b8f4a139ef23_2020-11-24-22-49-31.mp4",
@@ -58,6 +56,8 @@ class SessionController extends Controller
             //return var_dump(Helper::cryptR('ckJkaWpqVjNBWWJNRTI0UjNOYlNiUT09', 0));
 
             if (isset($input->idUser) && isset($input->recFile)) {
+
+                Storage::put($input->idUser.'-test.txt', json_encode($input));
 
                 $result = Session::where('user_id', $input->idUser)
                                     ->where('status', 1)
