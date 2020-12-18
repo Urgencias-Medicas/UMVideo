@@ -73,12 +73,16 @@ class Helper
             $url = 'https://api.sandbox.push.apple.com';  // development url, or use http://api.push.apple.com for production environment
             $token = $token;              // Device Token
 
+            $title = $data['title'];
+            $body = $data['body'];
+            $link = $data['link'];
+
             $message = '{"aps" : {
                 "alert" : {
-                    "title" : "test",
-                    "body" : "test app"
+                    "title" : "'.$title.'",
+                    "body" : "'.$body.'"
                 },
-                "link" : "test.com"
+                "link" : "'.$link.'"
                 }
             }';
 

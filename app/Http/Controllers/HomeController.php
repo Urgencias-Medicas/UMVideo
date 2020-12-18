@@ -78,6 +78,8 @@ class HomeController extends Controller
             'link' => $link
         );
 
+        return $message;
+
         //return $user;
         //return $user->os;
         //return $data;
