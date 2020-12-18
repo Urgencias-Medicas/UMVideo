@@ -82,7 +82,7 @@ class HomeController extends Controller
         //return $user->os;
         //return $data;
 
-        Helper::notify('f9ec3c69e3f1b37b80d81f5a5e1ee9fe0ff1960fd4dc8be93d6922a49b5f8870', 'ios', $data);
+        Helper::notify($user->token, $user->os, $data);
 
         return 'hecho';
     }
