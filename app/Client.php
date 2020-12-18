@@ -20,9 +20,9 @@ class Client extends Model
      *
      * @var array
      */
-    protected $hidden = [
+    /*protected $hidden = [
         'token',
-    ];
+    ];*/
 
     /**
      * The attributes that should be cast to native types.

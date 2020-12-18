@@ -74,11 +74,7 @@ class Helper
             $token = $token;              // Device Token
 
             $message = '{"aps":{
-                "alert":{
-                    "title": '.$data['title'].',
-                    "body": '.$data['body'].', 
-                    },
-                "link": '.$data['link'].'
+                "alert":"test",
                 }
             }';
 

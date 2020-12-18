@@ -69,13 +69,18 @@ class HomeController extends Controller
     }
 
     public function send($id, $title, $body, $link){
-        $user = Client::find($id);
+        //$user = Client::find($id);
+        $user = ClientController::getToken($id);
 
         $data = array(
             'title' => $title, 
             'body' => $body,
             'link' => $link
         );
+
+        return $user;
+        //return $user->os;
+        //return $data;
 
         Helper::notify($user->token, $user->os, $data);
 

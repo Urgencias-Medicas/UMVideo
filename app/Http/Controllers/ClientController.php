@@ -13,7 +13,7 @@ class ClientController extends Controller
         return Client::select('token', 'os')
                     ->where('idUser', $idUser)
                     ->where('status', 1)
-                    ->groupBy('token')
+                    ->groupBy('token', 'os')
                     ->get();
     }
   
