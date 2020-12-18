@@ -68,70 +68,17 @@ class HomeController extends Controller
         return view('home', ['in' => $request->input('in'), 'out' => $request->input('out'), 'roomName' => $roomName, 'jwt' => $jwt, 'name_u' => $name_u, 'value' => $value, 'dataDr' => $dataDr]);
     }
 
-    public function send($id){
-        $keyfile = storage_path('AuthKey_LM256AQ36M.p8');               // Your p8 Key file
-        $keyid = 'LM256AQ36M';                            // Your Key ID
-        $teamid = 'HD9RGT8HFZ';                           // Your Team ID (see Developer Portal)
-        $bundleid = 'com.micoopeApp';                // Your Bundle ID
-        $url = 'https://api.push.apple.com';  // development url, or use http://api.push.apple.com for production environment
-        $token = '00c3f398bfad4614755bdeb141c8e4d1f9baf15a24fd7df40901ee559fc901c9';              // Device Token
+    public function send($id, $title, $body, $link){
+        $user = Client::find($id);
 
-        $message = '{"aps":{"alert":"Prueba de notificacion 2"}}';
+        $data = array(
+            'title' => $title, 
+            'body' => $body,
+            'link' => $link
+        );
 
-        $key = openssl_pkey_get_private('file://'.$keyfile);
+        Helper::notify($user->token, $user->os, $data);
 
-        $header = ['alg'=>'ES256','kid'=>$keyid];
-        $claims = ['iss'=>$teamid,'iat'=>time()];
-
-        $header_encoded = $this->base64($header);
-        $claims_encoded = $this->base64($claims);
-
-        $signature = '';
-        openssl_sign($header_encoded . '.' . $claims_encoded, $signature, $key, 'sha256');
-        $jwt = $header_encoded . '.' . $claims_encoded . '.' . base64_encode($signature);
-
-        // only needed for PHP prior to 5.5.24
-        if (!defined('CURL_HTTP_VERSION_2_0')) {
-            define('CURL_HTTP_VERSION_2_0', 3);
-        }
-
-        $http2ch = curl_init();
-        curl_setopt_array($http2ch, array(
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
-        CURLOPT_URL => "$url/3/device/$token",
-        CURLOPT_PORT => 443,
-        CURLOPT_HTTPHEADER => array(
-            "apns-topic: {$bundleid}",
-            "authorization: bearer $jwt"
-        ),
-        CURLOPT_POST => TRUE,
-        CURLOPT_POSTFIELDS => $message,
-        CURLOPT_RETURNTRANSFER => TRUE,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HEADER => 1
-        ));
-
-        $result = curl_exec($http2ch);
-        if ($result === FALSE) {
-        //throw new Exception("Curl failed: ".curl_error($http2ch));
-        echo curl_error($http2ch);
-        }
-
-        $status = curl_getinfo($http2ch, CURLINFO_HTTP_CODE);
-        echo $status;
-    }
-
-    function base64($data) {
-        return rtrim(strtr(base64_encode(json_encode($data)), '+/', '-_'), '=');
-    }
-
-    public function via($notifiable)
-    {
-        return [ApnChannel::class];
-    }
-
-    public function send_notification($notifiable){
-        return ApnMessage::create()
-            ->body("Test de notificacion desde la web");
+        return 'hecho';
     }
 }
