@@ -73,10 +73,7 @@ class Helper
             $url = 'https://api.push.apple.com';  // development url, or use http://api.push.apple.com for production environment
             $token = $token;              // Device Token
 
-            $message = '{"aps":{
-                "alert":"test",
-                }
-            }';
+            $message = '{"aps":{"alert":"test"}}';
 
             $key = openssl_pkey_get_private('file://'.$keyfile);
 
