@@ -75,10 +75,10 @@ class Helper
 
             $message = '{"aps" : {
                 "alert" : {
-                    "title" : '.$data['title'].',
-                    "body" : '.$data['body'].'
+                    "title" : "test",
+                    "body" : "test app"
                 },
-                "link" : '.$data['link'].'
+                "link" : "test.com"
                 }
             }';
 
