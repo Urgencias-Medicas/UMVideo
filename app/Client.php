@@ -34,8 +34,8 @@ class Client extends Model
         'updated_at' => 'datetime',
     ];
 
-    public function routeNotificationForApn()
+    /*public function routeNotificationForApn()
     {
         return $this->token;
-    }
+    }*/
 }
