@@ -70,7 +70,7 @@ class HomeController extends Controller
 
     public function send($id, $title, $body, $link){
         //$user = Client::find($id);
-        $user = ClientController::getToken($id);
+        $token = ClientController::getToken($id);
 
         $data = array(
             'title' => $title, 
@@ -82,7 +82,9 @@ class HomeController extends Controller
         //return $user->os;
         //return $data;
 
-        Helper::notify($user->token, $user->os, $data);
+        foreach($token as $user){
+            Helper::notify($user->token, $user->os, $data);
+        }
 
         return 'hecho';
     }
