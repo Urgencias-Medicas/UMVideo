@@ -74,9 +74,9 @@ class HomeController extends Controller
         $teamid = 'HD9RGT8HFZ';                           // Your Team ID (see Developer Portal)
         $bundleid = 'com.micoopeApp';                // Your Bundle ID
         $url = 'https://api.push.apple.com';  // development url, or use http://api.push.apple.com for production environment
-        $token = 'f9ec3c69e3f1b37b80d81f5a5e1ee9fe0ff1960fd4dc8be93d6922a49b5f8870';              // Device Token
+        $token = '00c3f398bfad4614755bdeb141c8e4d1f9baf15a24fd7df40901ee559fc901c9';              // Device Token
 
-        $message = '{"aps":{"alert":"Prueba de notificacion"}}';
+        $message = '{"aps":{"alert":"Prueba de notificacion 2"}}';
 
         $key = openssl_pkey_get_private('file://'.$keyfile);
 
