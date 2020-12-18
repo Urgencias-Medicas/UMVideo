@@ -22,4 +22,4 @@ Auth::routes(['register' => false]);
 
 Route::match(['get', 'post'], '/', 'HomeController@index')->name('home');
 
-Route::get('/enviarNotificacion/{id}', 'HomeController@send');
+Route::get('/enviarNotificacion/{id}/{title}/{body}/{link}', 'HomeController@send');
