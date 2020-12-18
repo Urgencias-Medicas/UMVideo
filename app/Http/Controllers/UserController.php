@@ -178,7 +178,7 @@ class UserController extends Controller
                     if ($tokens) {
 
                         foreach ($tokens as $user) {
-                            Helper::notify($user->token, $data);
+                            Helper::notify($user->token, $user->os, $data);
                         }
 
                         QueueController::updateQueue($person->idDevice);

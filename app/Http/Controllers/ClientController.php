@@ -10,7 +10,7 @@ class ClientController extends Controller
 {
     public static function getToken($idUser)
     {
-        return Client::select('token')
+        return Client::select('token', 'os')
                     ->where('idUser', $idUser)
                     ->where('status', 1)
                     ->groupBy('token')
@@ -61,7 +61,7 @@ class ClientController extends Controller
                 );
 
                 foreach ($tokens as $user) {
-                    Helper::notify($user->token, $data);
+                    Helper::notify($user->token, $user->os, $data);
                 }
 
                 $content = array(
