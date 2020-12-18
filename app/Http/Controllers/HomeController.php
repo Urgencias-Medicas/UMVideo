@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ShiftController;
 use App\Helpers\Helper;
+use NotificationChannels\Apn\ApnChannel;
+use NotificationChannels\Apn\ApnMessage;
+use App\Client;
 
 class HomeController extends Controller
 {
@@ -59,5 +62,25 @@ class HomeController extends Controller
         $jwt = $base64UrlHeader.".".$base64UrlPayload.".".$base64UrlSignature;
 
         return view('home', ['in' => $request->input('in'), 'out' => $request->input('out'), 'roomName' => $roomName, 'jwt' => $jwt, 'name_u' => $name_u, 'value' => $value, 'dataDr' => $dataDr]);
+    }
+
+    public function send($id){
+        $cliente = Client::find($id);
+
+        $this->send_notification($cliente);
+
+        return $cliente->token;
+
+        return 'Hecho';
+    }
+
+    public function via($notifiable)
+    {
+        return [ApnChannel::class];
+    }
+
+    public function send_notification($notifiable){
+        return ApnMessage::create()
+            ->body("Test de notificacion desde la web");
     }
 }
