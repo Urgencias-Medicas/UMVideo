@@ -152,7 +152,13 @@ class UserController extends Controller
 
             }
 
-            $result = UserController::updateUser($id_u, 1);
+            $status_user = User::where('id', $id_u)->value('status');
+
+            if($status_user != 2){
+
+                $result = UserController::updateUser($id_u, 1);
+
+            }
 
             $stat = 0;
 
@@ -175,30 +181,28 @@ class UserController extends Controller
 
                     $tokens = ClientController::getToken($person->idDevice);
 
-                    $status_user = User::where('id', $id_u)->value('status');
+                    
+                    if ($tokens) {
 
-                    if($status_user != 2){
-                        if ($tokens) {
-
-                            foreach ($tokens as $user) {
-                                Helper::notify($user->token, $user->os, $data);
-                            }
-    
-                            QueueController::updateQueue($person->idDevice);
-                            UserController::updateUser($id_u, 0);
-    
-                            UserController::smartAPI($person->idDevice, $medNum_u);
-    
-                            SessionController::newSession(array(
-                                'user_id' => $id_u,
-                                'client_id' => $person->idDevice
-                            ));
-    
-                            $stat = 1;
-                        } else {
-                            UserController::updateUser($id_u, 1);
+                        foreach ($tokens as $user) {
+                            Helper::notify($user->token, $user->os, $data);
                         }
+
+                        QueueController::updateQueue($person->idDevice);
+                        UserController::updateUser($id_u, 0);
+
+                        UserController::smartAPI($person->idDevice, $medNum_u);
+
+                        SessionController::newSession(array(
+                            'user_id' => $id_u,
+                            'client_id' => $person->idDevice
+                        ));
+
+                        $stat = 1;
+                    } else {
+                        UserController::updateUser($id_u, 1);
                     }
+                    
 
                 }
 
