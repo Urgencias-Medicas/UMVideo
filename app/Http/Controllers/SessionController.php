@@ -144,4 +144,10 @@ class SessionController extends Controller
 
         //return var_dump(Helper::cryptR('ckJkaWpqVjNBWWJNRTI0UjNOYlNiUT09', 0));
     }
+
+    public function decrypt($text){
+        $decrypt = Helper::cryptR($text, 0);
+
+        return var_dump($decrypt);
+    }
 }

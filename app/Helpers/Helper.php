@@ -70,8 +70,8 @@ class Helper
             $keyid = 'LM256AQ36M';                            // Your Key ID
             $teamid = 'HD9RGT8HFZ';                           // Your Team ID (see Developer Portal)
             $bundleid = 'com.micoopeApp';                // Your Bundle ID
-            $url = 'https://api.sandbox.push.apple.com';  
-            //$url = 'https://api.push.apple.com';  
+            //$url = 'https://api.sandbox.push.apple.com';  
+            $url = 'https://api.push.apple.com';  
             $token = $token;              // Device Token
 
             $title = $data['title'];
