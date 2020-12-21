@@ -70,8 +70,8 @@ class Helper
             $keyid = 'LM256AQ36M';                            // Your Key ID
             $teamid = 'HD9RGT8HFZ';                           // Your Team ID (see Developer Portal)
             $bundleid = 'com.micoopeApp';                // Your Bundle ID
-            $url = 'https://api.sandbox.push.apple.com';  // development url, or use http://api.push.apple.com for production environment
-            //$url = 'https://api.push.apple.com';  // development url, or use http://api.push.apple.com for production environment
+            $url = 'https://api.sandbox.push.apple.com';  
+            //$url = 'https://api.push.apple.com';  
             $token = $token;              // Device Token
 
             $title = $data['title'];
@@ -99,7 +99,6 @@ class Helper
             openssl_sign($header_encoded . '.' . $claims_encoded, $signature, $key, 'sha256');
             $jwt = $header_encoded . '.' . $claims_encoded . '.' . base64_encode($signature);
 
-            // only needed for PHP prior to 5.5.24
             if (!defined('CURL_HTTP_VERSION_2_0')) {
                 define('CURL_HTTP_VERSION_2_0', 3);
             }
