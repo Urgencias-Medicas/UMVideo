@@ -84,4 +84,14 @@
 <footer class="text-center my-3">
     Excess, S.A. | Urgencias Medicas, S.A.
 </footer>
+<script>
+@if(session()->has('message'))
+        new Noty({
+                layout: 'centerRight',
+                type: 'alert',
+                text: "{{session('message')}}",
+                timeout: 3000
+            }).show();
+@endif
+</script>
 </html>

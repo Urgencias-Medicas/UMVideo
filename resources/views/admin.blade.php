@@ -135,16 +135,4 @@
         </div>
     @endif
 </div>
-<script>
-
-@if(session()->has('message'))
-        new Noty({
-                layout: 'centerRight',
-                type: 'alert',
-                text: "Se ha registrado el usuario",
-                timeout: 3000
-            }).show();
-@endif
-
-</script>
 @endsection
