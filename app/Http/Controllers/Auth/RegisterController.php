@@ -78,7 +78,7 @@ class RegisterController extends Controller
                     : redirect($this->redirectPath());*/
         return $request->wantsJson()
                     ? new Response('', 201)
-                    : redirect('/admin');
+                    : redirect('/admin')->with(['message' => 'Usuario registrado.']);
     }
 
     /**
