@@ -135,7 +135,7 @@
             });
 
             var checkUsers = setInterval(function(){
-                if(participants.length == 1 || $participants.length < 2){
+                if(participants.length == 1 || participants.length < 2){
                     api.executeCommand('stopRecording',
                         'file' //recording mode to stop, `stream` or `file`
                     );
