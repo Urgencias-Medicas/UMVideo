@@ -300,6 +300,15 @@
                                 timeout: 3000
                             }).show();
 
+                            checkUsers = setInterval(function(){
+                                if(participants.length == 1 || participants.length < 2){
+                                    console.log('timer ejecutado');
+                                    api.executeCommand('stopRecording',
+                                        'file' //recording mode to stop, `stream` or `file`
+                                    );
+                                }
+                            }, 5000);
+
                             setTimeout(releaseDr, 60000, api, 1);
                         }
                     })
