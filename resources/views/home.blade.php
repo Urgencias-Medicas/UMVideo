@@ -126,6 +126,8 @@
                 console.log(participants[participants.length-1].participantId);
             }
             
+            console.log("<?php echo $dataDr; ?>");
+
             axios({
                 method: 'post',
                 url: '/api/setRecInfo',
