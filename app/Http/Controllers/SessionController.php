@@ -66,6 +66,44 @@ class SessionController extends Controller
                                     ->limit(1)
                                     ->update(['status' => 2, 'rec_name' => $input->recFile]);
 
+                $session_data = Session::where('user_id', $input->idUser)->where('rec_name', $input->recFile)->first();
+
+                $status_session = '';
+
+                if($session_data->status == 0){
+                    $status_session = 'Iniciada';
+                }else if($session_data->status == 1){
+                    $status_session = 'En Proceso';
+                }else if($session_data->status == 2){
+                    $status_session = 'Finalizada';
+                }else if($session_data->status == 3){
+                    $status_session = 'Cliente No Ingresó';
+                }
+
+                $data = Helper::cryptR(
+                    array(
+                        array(
+                            "method" => "604",
+                            "IdUser" => $session_data->client_id,
+                            "Recording" => "https://umvideo.nyc3.digitaloceanspaces.com/".$session_data->rec_name,
+                            "Codigo" => $session_data->id,
+                            "FechaInicio" => $session_data->created_at,
+                            "FechaFinal" => $session_data->updated_at,
+                            "Status" => $status_session
+                        )
+                    ), 1, 1);
+        
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "http://umwsdl.smartla.net/wsdl_um.php",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_POSTFIELDS => array('data' => $data),
+                ));
+        
+                curl_exec($curl);
+
                 $content = array(
                     'status' => $result
                 );
