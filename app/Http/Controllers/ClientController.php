@@ -71,7 +71,7 @@ class ClientController extends Controller
 
                 $data = array('data' => Helper::cryptR($content, 1));
 
-                return response()->json($content, 200);
+                return response()->json($data, 200);
             
             } else {
 
@@ -82,7 +82,7 @@ class ClientController extends Controller
 
                 $data = array('data' => Helper::cryptR($content, 1));
 
-                return response()->json($content, 400);
+                return response()->json($data, 400);
             }
 
         } else {
@@ -94,7 +94,7 @@ class ClientController extends Controller
 
             $data = array('data' => Helper::cryptR($content, 1));
 
-            return response()->json($content, 400);
+            return response()->json($data, 400);
         }
     }
 
