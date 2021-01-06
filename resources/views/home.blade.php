@@ -136,14 +136,14 @@
                 data: { data : "<?php echo $dataDr; ?>" }
             });
 
-            checkUsers = setInterval(function(){
+            /*checkUsers = setInterval(function(){
                 if(participants.length == 1 || participants.length < 2){
                     console.log('timer ejecutado');
                     api.executeCommand('stopRecording',
                         'file' //recording mode to stop, `stream` or `file`
                     );
                 }
-            }, 5000);
+            }, 5000);*/
         });
 
         api.on('participantKickedOut', function () {
@@ -162,7 +162,7 @@
                 releaseDr(api, 2);
             }
 
-            clearTimeout(checkUsers);
+            //clearTimeout(checkUsers);
 
             api.executeCommand('stopRecording',
                 'file' //recording mode to stop, `stream` or `file`
@@ -185,7 +185,7 @@
                 releaseDr(api, 2);
             }
 
-            clearTimeout(checkUsers);
+            //clearTimeout(checkUsers);
 
             api.executeCommand('stopRecording',
                 'file' //recording mode to stop, `stream` or `file`
@@ -300,14 +300,14 @@
                                 timeout: 3000
                             }).show();
 
-                            checkUsers = setInterval(function(){
+                            /*checkUsers = setInterval(function(){
                                 if(participants.length == 1 || participants.length < 2){
                                     console.log('timer ejecutado');
                                     api.executeCommand('stopRecording',
                                         'file' //recording mode to stop, `stream` or `file`
                                     );
                                 }
-                            }, 5000);
+                            }, 5000);*/
 
                             setTimeout(releaseDr, 60000, api, 1);
                         }
