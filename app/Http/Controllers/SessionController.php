@@ -21,7 +21,7 @@ class SessionController extends Controller
 
     public static function newSession($data)
     {
-        return Session::create($data);
+        return Session::insertGetId($data);
     }
 
     public static function getSession($idClient)

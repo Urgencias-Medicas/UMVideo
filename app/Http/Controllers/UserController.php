@@ -11,13 +11,14 @@ use App\Helpers\Helper;
 
 class UserController extends Controller
 {
-    public static function smartAPI($idUser, $medicalNum) {
+    public static function smartAPI($idUser, $medicalNum, $session_id) {
         $data = Helper::cryptR(
             array(
                 array(
                     "method" => "602",
                     "IdUser" => $idUser,
-                    "MedicalNum" => $medicalNum
+                    "MedicalNum" => $medicalNum,
+                    "Codigo" => $session_id
                 )
             ), 1, 1);
 
@@ -187,12 +188,12 @@ class UserController extends Controller
                             QueueController::updateQueue($person->idDevice);
                             UserController::updateUser($id_u, 0);
     
-                            UserController::smartAPI($person->idDevice, $medNum_u);
-    
-                            SessionController::newSession(array(
+                            $session_id = SessionController::newSession(array(
                                 'user_id' => $id_u,
                                 'client_id' => $person->idDevice
                             ));
+
+                            UserController::smartAPI($person->idDevice, $medNum_u, $session_id);
     
                             $stat = 1;
                         } else {
