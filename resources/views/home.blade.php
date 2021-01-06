@@ -100,6 +100,8 @@
 
         const api = new JitsiMeetExternalAPI(domain, options);
 
+        var checkUsers;
+
         api.on('participantJoined', function () {
             new Noty({
                 layout: 'centerRight',
@@ -134,8 +136,9 @@
                 data: { data : "<?php echo $dataDr; ?>" }
             });
 
-            var checkUsers = setInterval(function(){
+            checkUsers = setInterval(function(){
                 if(participants.length == 1 || participants.length < 2){
+                    console.log('timer ejecutado');
                     api.executeCommand('stopRecording',
                         'file' //recording mode to stop, `stream` or `file`
                     );
