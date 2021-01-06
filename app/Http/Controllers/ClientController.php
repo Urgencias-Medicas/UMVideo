@@ -62,16 +62,19 @@ class ClientController extends Controller
 
                 foreach ($tokens as $user) {
                     Helper::notify($user->token, $user->os, $data);
+                    echo $user->token;
+                    echo $user->os;
                 }
 
                 $content = array(
                     'message' => "Usuarios notificados con éxito.",
                     'status' => 1
                 );
+                return response()->json($data, 200);
 
                 $data = array('data' => Helper::cryptR($content, 1));
 
-                return response()->json($content, 200);
+                //return response()->json($content, 200);
             
             } else {
 
