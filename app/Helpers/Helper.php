@@ -76,7 +76,7 @@ class Helper
 
             $title = $data['title'];
             $body = $data['body'];
-            $link = $data['link'];
+            $link = $data['link'] ? $data['link'] : '';
 
             $message = '{"aps" : {
                 "alert" : {
