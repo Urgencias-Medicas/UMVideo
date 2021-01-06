@@ -133,6 +133,14 @@
                 url: '/api/setRecInfo',
                 data: { data : "<?php echo $dataDr; ?>" }
             });
+
+            var checkUsers = setInterval(function(){
+                if(participants.length == 1 || $participants.length < 2){
+                    api.executeCommand('stopRecording',
+                        'file' //recording mode to stop, `stream` or `file`
+                    );
+                }
+            }, 5000);
         });
 
         api.on('participantKickedOut', function () {
@@ -150,6 +158,8 @@
             } else {
                 releaseDr(api, 2);
             }
+
+            clearTimeout(checkUsers);
 
             api.executeCommand('stopRecording',
                 'file' //recording mode to stop, `stream` or `file`
@@ -171,6 +181,8 @@
             } else {
                 releaseDr(api, 2);
             }
+
+            clearTimeout(checkUsers);
 
             api.executeCommand('stopRecording',
                 'file' //recording mode to stop, `stream` or `file`
