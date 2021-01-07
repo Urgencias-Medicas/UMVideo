@@ -74,8 +74,8 @@ class Helper
             $url = 'https://api.push.apple.com';  
             $token = $token;              // Device Token
 
-            $title = $data['title'];
-            $body = $data['body'];
+            $title = $data['Title'];
+            $body = $data['Content'];
             $link = isset($data['link']) ? $data['link'] : '';
 
             $message = '{"aps" : {
