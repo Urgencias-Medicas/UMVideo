@@ -58,6 +58,7 @@ class ClientController extends Controller
                 $data = array(
                     'body' => $input->body,
                     'title' => $input->title,
+                    'link' => $input->link
                 );
 
                 foreach ($tokens as $user) {
