@@ -33,7 +33,8 @@ class Helper
             # Our new data
             $body = array(
                 'to' => $token,
-                'notification' => $data
+                'notification' => $data,
+                'data' => array("link" => isset($data['link']) ? $data['link'] : null)
             );
 
             $payload = json_encode($body);
