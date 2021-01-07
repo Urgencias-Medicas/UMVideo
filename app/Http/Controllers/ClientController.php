@@ -56,8 +56,8 @@ class ClientController extends Controller
             if ($tokens) {
 
                 $data = array(
-                    'Content' => $input->body,
-                    'Title' => $input->title,
+                    'body' => $input->body,
+                    'title' => $input->title,
                 );
 
                 foreach ($tokens as $user) {

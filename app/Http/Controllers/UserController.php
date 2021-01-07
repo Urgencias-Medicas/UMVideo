@@ -171,8 +171,8 @@ class UserController extends Controller
 
                     date_default_timezone_set('America/Guatemala');
                     $data = array(
-                        'Title' => "¡Un Doctor Está Listo Para Atenderte!",
-                        'Content' => "Presiona aquí para entrar a la videollamada",
+                        'title' => "¡Un Doctor Está Listo Para Atenderte!",
+                        'body' => "Presiona aquí para entrar a la videollamada",
                         'link' => 'https://videos.excess.software/' . sha1("&%" . str_replace(" ", "&%", $name_u) . "&%" . date("l&%d&%m&%Y")) . $id_u
                     );
 
