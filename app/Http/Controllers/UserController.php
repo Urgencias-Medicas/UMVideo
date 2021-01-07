@@ -12,26 +12,28 @@ use App\Helpers\Helper;
 class UserController extends Controller
 {
     public static function smartAPI($idUser, $medicalNum, $session_id = 0) {
-        $data = Helper::cryptR(
-            array(
+        if($session_id != 0){
+            $data = Helper::cryptR(
                 array(
-                    "method" => "602",
-                    "IdUser" => $idUser,
-                    "MedicalNum" => $medicalNum,
-                    "Codigo" => $session_id
-                )
-            ), 1, 1);
+                    array(
+                        "method" => "602",
+                        "IdUser" => $idUser,
+                        "MedicalNum" => $medicalNum,
+                        "Codigo" => $session_id
+                    )
+                ), 1, 1);
 
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "http://umwsdl.smartla.net/wsdl_um.php",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => array('data' => $data),
-        ));
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "http://umwsdl.smartla.net/wsdl_um.php",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => array('data' => $data),
+            ));
 
-        curl_exec($curl);
+            curl_exec($curl);
+        }
     }
 
     public function getLink(Request $request)
