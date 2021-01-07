@@ -11,7 +11,7 @@ use App\Helpers\Helper;
 
 class UserController extends Controller
 {
-    public static function smartAPI($idUser, $medicalNum, $session_id) {
+    public static function smartAPI($idUser, $medicalNum, $session_id = 0) {
         $data = Helper::cryptR(
             array(
                 array(
