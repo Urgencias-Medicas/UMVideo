@@ -12,6 +12,7 @@ use App\Helpers\Helper;
 class UserController extends Controller
 {
     public static function smartAPI($idUser, $medicalNum, $session_id = 0) {
+        Storage::append('apiSmart602-data.txt', $idUser.' - '.$medicalNum.' - '.$session_id);
         if($session_id != 0){
             $data = Helper::cryptR(
                 array(
@@ -35,7 +36,6 @@ class UserController extends Controller
             $response = curl_exec($curl);
 
             Storage::put('apiSmart602-response.txt', json_encode($response));
-            Storage::append('apiSmart602-data.txt', $idUser.' - '.$medicalNum.' - '.$session_id);
         }
     }
 
