@@ -33,12 +33,12 @@ class Helper
             # Our new data
             $link = isset($data['link']) ? $data['link'] : null;
             
-            if(isset($data['link'])){
-                $body = array(
-                    'to' => $token,
-                    'data' => $data
-                );
-            }else{
+            $body = array(
+                'to' => $token,
+                'data' => $data
+            );
+
+            if(!isset($data['link'])){
                 $body = array(
                     'to' => $token,
                     'notification' => $data
