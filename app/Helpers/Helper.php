@@ -39,7 +39,7 @@ class Helper
             $body = array(
                 'to' => $token,
                 'notification' => $data,
-                'data' => array('link' => $link)
+                'data' => array('link' => null)
             );
 
             $payload = json_encode($body);
