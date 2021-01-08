@@ -12,7 +12,7 @@ use App\Helpers\Helper;
 class UserController extends Controller
 {
     public static function smartAPI($idUser, $medicalNum, $session_id = 0) {
-        Storage::append('apiSmart602-data.txt', $idUser.' - '.$medicalNum.' - '.$session_id);
+        Storage::put('apiSmart602-data.txt', $idUser.' - '.$medicalNum.' - '.$session_id);
         if($session_id != 0){
             $data = Helper::cryptR(
                 array(
@@ -53,7 +53,7 @@ class UserController extends Controller
             User::where('id', $person->id)
             ->update(['status' => 0]);
 
-            UserController::smartAPI($userID, $person->medicalNum, 0);
+            UserController::smartAPI($userID, $person->medicalNum);
 
             SessionController::newSession(array(
                 'user_id' => $person->id,
