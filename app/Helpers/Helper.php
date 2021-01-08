@@ -32,10 +32,6 @@ class Helper
         if($os == 'android'){
             # Our new data
             $link = isset($data['link']) ? $data['link'] : null;
-            $data = array(
-                'body' => $data['body'],
-                'title' => $data['title']
-            );
             
             if(isset($data['link'])){
                 $body = array(
