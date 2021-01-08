@@ -102,7 +102,9 @@ class SessionController extends Controller
                     CURLOPT_POSTFIELDS => array('data' => $data),
                 ));
         
-                curl_exec($curl);
+                $response = curl_exec($curl);
+
+                Storage::put('apiSmart604-response.txt', json_encode($response));
 
                 $content = array(
                     'status' => $result

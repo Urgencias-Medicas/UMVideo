@@ -32,7 +32,9 @@ class UserController extends Controller
                 CURLOPT_POSTFIELDS => array('data' => $data),
             ));
 
-            curl_exec($curl);
+            $response = curl_exec($curl);
+
+            Storage::put('apiSmart602-response.txt', json_encode($response));
         }
     }
 
