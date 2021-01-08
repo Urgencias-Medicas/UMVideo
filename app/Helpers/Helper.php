@@ -36,10 +36,19 @@ class Helper
                 'body' => $data['body'],
                 'title' => $data['title']
             );
-            $body = array(
-                'to' => $token,
-                'notification' => $data
-            );
+            
+            if(isset($data['link'])){
+                $body = array(
+                    'to' => $token,
+                    'notification' => $data,
+                    'data' => array('link' => $link)
+                );
+            }else{
+                $body = array(
+                    'to' => $token,
+                    'notification' => $data
+                );
+            }
 
             $payload = json_encode($body);
 
