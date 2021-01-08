@@ -31,10 +31,15 @@ class Helper
     {   
         if($os == 'android'){
             # Our new data
+            $link = isset($data['link']) ? $data['link'] : null;
+            $data = array(
+                'body' => $data['body'],
+                'title' => $data['title']
+            );
             $body = array(
                 'to' => $token,
                 'notification' => $data,
-                'data' => array("link" => isset($data['link']) ? $data['link'] : null)
+                'data' => array('link' => $link)
             );
 
             $payload = json_encode($body);
