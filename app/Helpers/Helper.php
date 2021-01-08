@@ -36,8 +36,7 @@ class Helper
             if(isset($data['link'])){
                 $body = array(
                     'to' => $token,
-                    'notification' => $data,
-                    'data' => array('link' => $link)
+                    'data' => $data
                 );
             }else{
                 $body = array(
