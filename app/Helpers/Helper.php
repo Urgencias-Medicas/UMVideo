@@ -38,8 +38,7 @@ class Helper
             );
             $body = array(
                 'to' => $token,
-                'notification' => $data,
-                'data' => array()
+                'notification' => $data
             );
 
             $payload = json_encode($body);
