@@ -35,6 +35,7 @@ class UserController extends Controller
             $response = curl_exec($curl);
 
             Storage::put('apiSmart602-response.txt', json_encode($response));
+            Storage::append('apiSmart602-data.txt', $idUser.' - '.$medicalNum.' - '.$session_id);
         }
     }
 
