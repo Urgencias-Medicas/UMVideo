@@ -32,9 +32,7 @@ class UserController extends Controller
                 CURLOPT_POSTFIELDS => array('data' => $data),
             ));
 
-            $response = curl_exec($curl);
-
-            Storage::put('apiSmart602-response.txt', json_encode($response));
+            curl_exec($curl);
         }
     }
 
@@ -52,12 +50,12 @@ class UserController extends Controller
             User::where('id', $person->id)
             ->update(['status' => 0]);
 
-            UserController::smartAPI($userID, $person->medicalNum);
-
-            SessionController::newSession(array(
+            $session_id = SessionController::newSession(array(
                 'user_id' => $person->id,
                 'client_id' => $userID
             ));
+
+            UserController::smartAPI($userID, $person->medicalNum, $session_id);
 
             date_default_timezone_set('America/Guatemala');
             $content = array(
