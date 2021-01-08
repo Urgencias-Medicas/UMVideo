@@ -53,7 +53,7 @@ class UserController extends Controller
             User::where('id', $person->id)
             ->update(['status' => 0]);
 
-            UserController::smartAPI($userID, $person->medicalNum);
+            UserController::smartAPI($userID, $person->medicalNum, 0);
 
             SessionController::newSession(array(
                 'user_id' => $person->id,
