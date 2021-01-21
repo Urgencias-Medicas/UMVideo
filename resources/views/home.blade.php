@@ -109,7 +109,7 @@
 
         var inactiveDrInterval;
         var count = 0;
-        var tiempoDeInactividad = 10; //Tiempo en minutos
+        var tiempoDeInactividad = 1; //Tiempo en minutos
 
         function inactiveDrTimerHandler() {
             count++;
