@@ -45,6 +45,7 @@
     </form>
 </div>
 <script>
+
     let pause = 0;
     // Greeting
     var now = new Date();
@@ -99,6 +100,32 @@
         }
 
         const api = new JitsiMeetExternalAPI(domain, options);
+
+        //Detect if user leaves page
+        window.addEventListener('blur', startTimerDr);
+        window.addEventListener('focus', stopTimerDr);
+
+        var inactiveDrInterval;
+        var count = 0;
+        var tiempoDeInactividad = 10; //Tiempo en minutos
+
+        function inactiveDrTimerHandler() {
+            count++;
+            console.log(count);
+
+            if(count == tiempoDeInactividad*60){
+                endSession(api);
+            }
+        }
+
+        function startTimerDr(){
+            inactiveDrInterval = window.setInterval(inactiveDrTimerHandler, 1000);
+        }
+
+        function stopTimerDr(){
+            clearInterval(inactiveDrInterval);
+            count = 0;
+        }
 
         var checkUsers;
 
@@ -420,6 +447,58 @@
                         layout: 'centerRight',
                         type: 'error',
                         text: 'La sesión NO fue pausada por un error. Pruebe nuevamente.',
+                        timeout: 3000
+                    }).show();
+
+                }
+            });
+        }
+        
+    }
+
+    function endSession(api) {
+
+        //let shiftBtn = document.getElementById('shift');
+
+        if (api.getNumberOfParticipants() > 1) {
+
+            pause = 1;
+
+            new Noty({
+                layout: 'centerRight',
+                type: 'warning',
+                text: 'Ha estado demasiado tiempo inactivo en el sitio, su sesión podría finalizarse.',
+                timeout: 3000
+            }).show();
+
+        } else {
+            
+            axios({
+                    method: 'post',
+                    url: '/api/releaseDr',
+                    data: { data : "<?php echo $dataDr; ?>", end : 1 }
+            })
+            .then(function (response) {
+
+                if (response.data == 1) {
+
+                    //document.getElementById('session').style.display = "none";
+
+                    new Noty({
+                        layout: 'centerRight',
+                        type: 'success',
+                        text: 'Su sesión fue finalizada por inactividad. Recargue la página.',
+                        timeout: 15000
+                    }).show();
+
+                    $('#session').click();
+
+                } else {
+
+                    new Noty({
+                        layout: 'centerRight',
+                        type: 'error',
+                        text: 'La sesión NO fue finalizada por un error.',
                         timeout: 3000
                     }).show();
 

@@ -123,6 +123,14 @@ class UserController extends Controller
             return response()->json($result, 200);
         }
 
+        if ($request->input('end')){
+
+            $result = UserController::updateUser($idClient->idUser, 0);
+
+            return response()->json($result, 200);
+
+        }
+
         if ($request->input('start'))
             ShiftController::create(['user_id' => $idClient->idUser, 'status' => 3]);
 
