@@ -105,6 +105,8 @@
         window.addEventListener('blur', startTimerDr);
         window.addEventListener('focus', stopTimerDr);
 
+        window.onbeforeunload = endDrSession;
+
         var inactiveDrInterval;
         var count = 0;
         var tiempoDeInactividad = 10; //Tiempo en minutos
@@ -125,6 +127,10 @@
         function stopTimerDr(){
             clearInterval(inactiveDrInterval);
             count = 0;
+        }
+
+        function endDrSession(){
+            endSession(api);
         }
 
         var checkUsers;
