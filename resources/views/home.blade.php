@@ -468,14 +468,14 @@
 
         if (api.getNumberOfParticipants() > 1) {
 
-            pause = 1;
+            //pause = 1;
 
-            new Noty({
+            /*new Noty({
                 layout: 'centerRight',
                 type: 'warning',
                 text: 'Ha estado demasiado tiempo inactivo en el sitio, su sesión podría finalizarse.',
                 timeout: 3000
-            }).show();
+            }).show();*/
 
         } else {
             
