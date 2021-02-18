@@ -11,17 +11,30 @@ use App\Helpers\Helper;
 
 class UserController extends Controller
 {
-    public static function smartAPI($idUser, $medicalNum, $session_id = 0) {
+    public static function smartAPI($idUser, $medicalNum, $session_id = 0, $afiliadoID = 0) {
         if($session_id != 0){
-            $data = Helper::cryptR(
-                array(
+            if($afiliadoID != 0){
+                $data = Helper::cryptR(
                     array(
-                        "method" => "602",
-                        "IdUser" => $idUser,
-                        "MedicalNum" => $medicalNum,
-                        "Codigo" => $session_id
-                    )
-                ), 1, 1);
+                        array(
+                            "method" => "602",
+                            "IdUser" => $idUser,
+                            "AfiliadoID" => $afiliadoID,
+                            "MedicalNum" => $medicalNum,
+                            "Codigo" => $session_id
+                        )
+                    ), 1, 1);
+            }else{
+                $data = Helper::cryptR(
+                    array(
+                        array(
+                            "method" => "602",
+                            "IdUser" => $idUser,
+                            "MedicalNum" => $medicalNum,
+                            "Codigo" => $session_id
+                        )
+                    ), 1, 1);
+            }
 
             $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -56,6 +69,78 @@ class UserController extends Controller
             ));
 
             UserController::smartAPI($userID, $person->medicalNum, $session_id);
+
+            date_default_timezone_set('America/Guatemala');
+            $content = array(
+                'waitCount' => 0,
+                'waitTime' => 0,
+                'link' => 'https://videos.excess.software/' . sha1("&%" . str_replace(" ", "&%", $person->name) . "&%" . date("l&%d&%m&%Y")) . $person->id,
+                'status' => 1
+            );
+
+            $data = array('data' => Helper::cryptR($content, 1));
+
+            return response()->json($data, 200);
+
+        } elseif ($timeInQueue) {
+
+            $totalQueue = QueueController::getTotalInQueue($userID, $timeInQueue->created_at);
+
+            $content = array(
+                'waitCount' => $totalQueue,
+                'waitTime' => ($totalQueue * 10) + 3,
+                'title' => 'Actualmente usted ya se encuentra en la lista de espera.',
+                'description' => 'En unos momentos un doctor se comunicará con usted.',
+                'status' => 0
+            );
+
+            $data = array('data' => Helper::cryptR($content, 1));
+
+            return response()->json($data, 200);
+
+        } else {
+
+            $totalQueue = QueueController::getTotalInQueue($userID);
+
+            QueueController::insertToQueue(['idDevice' => $userID, 'status' => 1]);
+
+            $content = array(
+                'waitCount' => $totalQueue,
+                'waitTime' => ($totalQueue * 10) + 3,
+                'title' => 'Todos nuestros doctores se encuentran ocupados.',
+                'description' => '¿Desea esperar? De lo contrario nosotros le regresaremos la llamada.',
+                'status' => 0
+            );
+
+            $data = array('data' => Helper::cryptR($content, 1));
+
+            return response()->json($data, 200);
+
+        }
+    }
+
+    public function getLinkAfiliado(Request $request)
+    {
+        $person = User::select('id', 'name', 'medicalNum')
+                    ->where('status', 1)
+                    ->first();
+
+        $input = Helper::cryptR($request->input('data'), 0);
+        $userID = $input->userID;
+        $afiliadoID = $input->afiliadoID;
+        $timeInQueue = QueueController::clientInQueue($userID);
+
+        if ($person) {
+
+            User::where('id', $person->id)
+            ->update(['status' => 0]);
+
+            $session_id = SessionController::newSession(array(
+                'user_id' => $person->id,
+                'client_id' => $userID
+            ));
+
+            UserController::smartAPI($userID, $person->medicalNum, $session_id, $afiliadoID);
 
             date_default_timezone_set('America/Guatemala');
             $content = array(

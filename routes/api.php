@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::GET('getLink', 'UserController@getLink');
 
+Route::GET('getLinkAfiliado', 'UserController@getLinkAfiliado');
+
 Route::POST('insertClient', 'ClientController@insertClient');
 
 Route::POST('notify', 'ClientController@notifyUser');
