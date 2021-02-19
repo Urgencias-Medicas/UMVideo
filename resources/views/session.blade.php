@@ -11,6 +11,7 @@
                             <th>{{ __('ID') }}</th>
                             <th>{{ __('Doctor') }}</th>
                             <th>{{ __('Paciente') }}</th>
+                            <th>{{ __('Afiliado')}}</th>
                             <th>{{ __('Estado') }}</th>
                             <th>{{ __('Fecha de Inicio') }}</th>
                             <th>{{ __('Fecha Fin') }}</th>
@@ -28,6 +29,9 @@
                                 </td>
                                 <td>
                                    <?php echo $session->paciente; ?>
+                                </td>
+                                <td>
+                                   <?php echo $session->afiliado ? $session->afiliado : '-' ?>
                                 </td>
                                 <td>
                                    <?php echo ($session->status == 0) ? "Iniciada" : (($session->status == 1) ? "En proceso" : (($session->status == 2) ? "Finalizada" : (($session->status == 3) ? "Cliente No Ingresó" : "Error"))); ?>

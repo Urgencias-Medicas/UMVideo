@@ -137,7 +137,8 @@ class UserController extends Controller
 
             $session_id = SessionController::newSession(array(
                 'user_id' => $person->id,
-                'client_id' => $userID
+                'client_id' => $userID,
+                'afiliado_id' => $afiliadoID,
             ));
 
             UserController::smartAPI($userID, $person->medicalNum, $session_id, $afiliadoID);
