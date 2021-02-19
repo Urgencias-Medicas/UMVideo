@@ -18,8 +18,8 @@ class UserController extends Controller
                     array(
                         array(
                             "method" => "602",
-                            "IdUser" => $idUser,
-                            "AfiliadoID" => $afiliadoID,
+                            "IdUser" => $afiliadoID,
+                            //"AfiliadoID" => $afiliadoID,
                             "MedicalNum" => $medicalNum,
                             "Codigo" => $session_id
                         )
