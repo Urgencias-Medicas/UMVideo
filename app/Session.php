@@ -12,6 +12,6 @@ class Session extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'client_id',
+        'user_id', 'client_id', 'afiliado_id'
     ];
 }
