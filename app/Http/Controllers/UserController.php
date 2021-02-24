@@ -284,7 +284,7 @@ class UserController extends Controller
                             QueueController::updateQueue($person->idDevice);
                             UserController::updateUser($id_u, 0);
                             
-                            if($person->afiliado_id){
+                            if(isset($person->afiliado_id)){
                                 $session_id = SessionController::newSession(array(
                                     'user_id' => $person->id,
                                     'client_id' => $userID,
