@@ -12,6 +12,6 @@ class Queue extends Model
      * @var array
      */
     protected $fillable = [
-        'idDevice', 'status',
+        'idDevice', 'afiliado_id', 'status',
     ];
 }

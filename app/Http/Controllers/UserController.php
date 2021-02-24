@@ -175,7 +175,7 @@ class UserController extends Controller
 
             $totalQueue = QueueController::getTotalInQueue($userID);
 
-            QueueController::insertToQueue(['idDevice' => $userID, 'status' => 1]);
+            QueueController::insertToQueue(['idDevice' => $userID, 'afiliado_id' => $afiliadoID, 'status' => 1]);
 
             $content = array(
                 'waitCount' => $totalQueue,
@@ -283,13 +283,23 @@ class UserController extends Controller
     
                             QueueController::updateQueue($person->idDevice);
                             UserController::updateUser($id_u, 0);
+                            
+                            if($person->afiliado_id){
+                                $session_id = SessionController::newSession(array(
+                                    'user_id' => $person->id,
+                                    'client_id' => $userID,
+                                    'afiliado_id' => $person->afiliado_id,
+                                ));
+                    
+                                UserController::smartAPI($userID, $person->medicalNum, $session_id, $person->afiliado_id);
+                            }else{
+                                $session_id = SessionController::newSession(array(
+                                    'user_id' => $id_u,
+                                    'client_id' => $person->idDevice
+                                ));
     
-                            $session_id = SessionController::newSession(array(
-                                'user_id' => $id_u,
-                                'client_id' => $person->idDevice
-                            ));
-
-                            UserController::smartAPI($person->idDevice, $medNum_u, $session_id);
+                                UserController::smartAPI($person->idDevice, $medNum_u, $session_id);
+                            }
     
                             $stat = 1;
                         } else {
