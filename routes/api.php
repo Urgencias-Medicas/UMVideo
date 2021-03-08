@@ -39,3 +39,5 @@ Route::GET('testApi/{test}', 'SessionController@testApi');
 Route::GET('cryptId/{id}', 'SessionController@cryptId');
 
 Route::GET('decrypt/{text}', 'SessionController@decrypt');
+
+Route::GET('testNotifications', 'UserController@testNotifications');

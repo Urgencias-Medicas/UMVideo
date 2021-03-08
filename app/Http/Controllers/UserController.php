@@ -334,4 +334,68 @@ class UserController extends Controller
             return response()->json($data, 400);
         }
     }
+
+    public function testNotifications(){
+        $keyfile = storage_path('AuthKey_LM256AQ36M.p8');               // Your p8 Key file
+            $keyid = 'LM256AQ36M';                            // Your Key ID
+            $teamid = 'HD9RGT8HFZ';                           // Your Team ID (see Developer Portal)
+            $bundleid = 'com.micoopeApp';                // Your Bundle ID
+            //$url = 'https://api.sandbox.push.apple.com';  
+            $url = 'https://api.push.apple.com';  
+            $token = 'ea8e386939c0d0e247f713e6c6baace9eb69b4f748a237c53ae858530bef9683';              // Device Token
+
+            $title = 'test notificación';
+            $body = 'Esto es una prueba';
+            $link = isset($data['link']) ? $data['link'] : '';
+
+            $message = '{"aps" : {
+                "alert" : {
+                    "title" : "'.$title.'",
+                    "body" : "'.$body.'"
+                },
+                "link" : "'.$link.'"
+                }
+            }';
+
+            $key = openssl_pkey_get_private('file://'.$keyfile);
+
+            $header = ['alg'=>'ES256','kid'=>$keyid];
+            $claims = ['iss'=>$teamid,'iat'=>time()];
+
+            $header_encoded = rtrim(strtr(base64_encode(json_encode($header)), '+/', '-_'), '=');
+            $claims_encoded = rtrim(strtr(base64_encode(json_encode($claims)), '+/', '-_'), '=');
+
+            $signature = '';
+            openssl_sign($header_encoded . '.' . $claims_encoded, $signature, $key, 'sha256');
+            $jwt = $header_encoded . '.' . $claims_encoded . '.' . base64_encode($signature);
+
+            if (!defined('CURL_HTTP_VERSION_2_0')) {
+                define('CURL_HTTP_VERSION_2_0', 3);
+            }
+
+            $http2ch = curl_init();
+            curl_setopt_array($http2ch, array(
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
+            CURLOPT_URL => "$url/3/device/$token",
+            CURLOPT_PORT => 443,
+            CURLOPT_HTTPHEADER => array(
+                "apns-topic: {$bundleid}",
+                "authorization: bearer $jwt"
+            ),
+            CURLOPT_POST => TRUE,
+            CURLOPT_POSTFIELDS => $message,
+            CURLOPT_RETURNTRANSFER => TRUE,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HEADER => 1
+            ));
+
+            $result = curl_exec($http2ch);
+            if ($result === FALSE) {
+            //throw new Exception("Curl failed: ".curl_error($http2ch));
+            echo curl_error($http2ch);
+            }
+
+            $status = curl_getinfo($http2ch, CURLINFO_HTTP_CODE);
+            echo $status;
+    }
 }
