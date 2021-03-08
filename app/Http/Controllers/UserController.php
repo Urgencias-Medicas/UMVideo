@@ -388,6 +388,8 @@ class UserController extends Controller
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HEADER => 1
             ));
+            curl_setopt($http2ch, CURLOPT_CAINFO, "/var/www/html/cacert.pem"); // <------ 
+            curl_setopt($http2ch, CURLOPT_CAPATH, "/var/www/html/cacert.pem");
 
             $result = curl_exec($http2ch);
             if ($result === FALSE) {
