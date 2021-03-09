@@ -64,7 +64,7 @@ class ClientController extends Controller
                     foreach ($tokens as $user) {
                         Helper::notify($user->token, $user->os, $data, 1);
                     }
-                }else{
+                }else if($input->affiliate == 0){
                     foreach ($tokens as $user) {
                         Helper::notify($user->token, $user->os, $data);
                     }
