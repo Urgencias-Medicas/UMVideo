@@ -342,7 +342,7 @@ class UserController extends Controller
             $bundleid = 'com.micoopeApp';                // Your Bundle ID
             //$url = 'https://api.sandbox.push.apple.com';  
             $url = 'https://api.push.apple.com';  
-            $token = 'ea8e386939c0d0e247f713e6c6baace9eb69b4f748a237c53ae858530bef9683';              // Device Token
+            $token = '01b7a14522e7558439629bd1382f83fbabb3499c35da251db109fd9e836a791a';              // Device Token
 
             $title = 'test notificación';
             $body = 'Esto es una prueba';
