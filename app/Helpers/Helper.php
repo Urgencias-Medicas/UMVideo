@@ -27,7 +27,7 @@ class Helper
         }
     }
 
-    public static function notify($token, $os, $data)
+    public static function notify($token, $os, $data, $affiliates = 0)
     {   
         if($os == 'android'){
             # Our new data
@@ -75,10 +75,18 @@ class Helper
 
             return $result;
         }else if($os == 'ios'){
+
             $keyfile = storage_path('AuthKey_LM256AQ36M.p8');               // Your p8 Key file
             $keyid = 'LM256AQ36M';                            // Your Key ID
-            $teamid = 'HD9RGT8HFZ';                           // Your Team ID (see Developer Portal)
             $bundleid = 'com.micoopeApp';                // Your Bundle ID
+
+            if($affiliates != 0){
+                $keyfile = storage_path('AuthKey_3AVF8CZNY3.p8');               // Your p8 Key file
+                $keyid = '3AVF8CZNY3';                            // Your Key ID
+                $bundleid = 'com.Afiliados-Seguros-Columna';                // Your Bundle ID
+            }
+            
+            $teamid = 'HD9RGT8HFZ';                           // Your Team ID (see Developer Portal)
             //$url = 'https://api.sandbox.push.apple.com';  
             $url = 'https://api.push.apple.com';  
             $token = $token;              // Device Token
@@ -127,7 +135,7 @@ class Helper
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HEADER => 1
             ));
-
+            curl_setopt($http2ch, CURLOPT_SSL_VERIFYPEER, false);
             $result = curl_exec($http2ch);
             if ($result === FALSE) {
             //throw new Exception("Curl failed: ".curl_error($http2ch));

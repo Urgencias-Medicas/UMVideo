@@ -278,7 +278,11 @@ class UserController extends Controller
                         if ($tokens) {
 
                             foreach ($tokens as $user) {
-                                Helper::notify($user->token, $user->os, $data);
+                                if(isset($person->afiliado_id)){
+                                    Helper::notify($user->token, $user->os, $data, 1);
+                                }else{
+                                    Helper::notify($user->token, $user->os, $data);
+                                }
                             }
     
                             QueueController::updateQueue($person->idDevice);
