@@ -59,9 +59,15 @@ class ClientController extends Controller
                     'body' => $input->body,
                     'title' => $input->title
                 );
-
-                foreach ($tokens as $user) {
-                    Helper::notify($user->token, $user->os, $data);
+                
+                if($input->affiliate == 1){
+                    foreach ($tokens as $user) {
+                        Helper::notify($user->token, $user->os, $data, 1);
+                    }
+                }else{
+                    foreach ($tokens as $user) {
+                        Helper::notify($user->token, $user->os, $data);
+                    }
                 }
 
                 $content = array(
