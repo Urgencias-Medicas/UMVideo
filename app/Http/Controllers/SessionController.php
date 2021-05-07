@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SessionExport;
 use App\Session;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
+use Maatwebsite\Excel\Facades\Excel;
 use Storage;
 
 class SessionController extends Controller
@@ -17,6 +19,11 @@ class SessionController extends Controller
                             ->get();
 
         return view('session', ['sessions' => $sessions]);
+    }
+
+    public function export() 
+    {
+        return Excel::download(new SessionExport, 'session.xlsx');
     }
 
     public static function newSession($data)
