@@ -1,12 +1,12 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
                 <h3>{{ __('Sesiones') }}</h3>
-                @can('view_sessions')
-                    <table class="table table-light table-striped border rounded mb-5">
+		@can('view_sessions')
+		    <div class="col-md-4 text-right"> <button id="exporttable" class="btn btn-primary">Export</button> </div> 
+                    <table class="table table-light table-striped border rounded mb-5" id="htmltable">
                         <tr>
                             <th>{{ __('ID') }}</th>
                             <th>{{ __('Doctor') }}</th>
@@ -57,4 +57,28 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.table2excel.min.js"></script>
+<script>
+$(function() {
+$("#exporttable").click(function(e){
+var table = $("#htmltable");
+if(table && table.length){
+$(table).table2excel({
+exclude: ".noExl",
+name: "Excel Document Name",
+filename: "BBBootstrap" + new Date().toISOString().replace(/[\-\:\.]/g, "") + ".xls",
+fileext: ".xls",
+exclude_img: true,
+exclude_links: true,
+exclude_inputs: true,
+preserveColors: false
+});
+}
+});
+
+});
+</script>
+
 @endsection
