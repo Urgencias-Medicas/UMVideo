@@ -53,7 +53,7 @@ class ClientController extends Controller
 
             $tokens = ClientController::getToken($input->idUser);
 
-            if ($tokens) {
+            if (!$tokens->isEmpty()) {
 
                 $data = array(
                     'body' => $input->body,
