@@ -57,7 +57,7 @@ class Helper
 
             // Set HTTP Header for POST request 
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Authorization: key=AAAA2L9VS20:APA91bH_B4EsSKEhuMJMteawqjRouCP3sfImmAsJ1QhJmYzjkm0H4ebrgtYPMXZlnzGP2HOHOnTZui5ifeo07CCW-PwUUtRfZhGEj-K16Bug8Zzzt953J8RtSlAL_oqJjOaqnnT0rJFi',
+                'Authorization: key=AAAAQtmlxOA:APA91bFCCIpXKAwWDvVQap19QDUfW_htHtw1rkgU5Os0sqCFfls9LNS3as9I7EmTGo3-fc_gMV90XF74nymkhtgxQzT_IWhNTNzEK7H1naj9JZ3Q4tUK9PxMmTcZxu2-g3-nL71NpIbt',
                 'Content-Type: application/json',
                 'Host: fcm.googleapis.com',
                 'Content-Length: ' . strlen($payload)
