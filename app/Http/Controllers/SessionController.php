@@ -169,6 +169,22 @@ class SessionController extends Controller
         }
     }
 
+    public static function reviewSession(Request $request)
+    {
+        $inputData = Helper::cryptR($request->input('data'), 0);
+        //$inputData = (object)$request->input('data');
+        $idUser = $inputData->id;
+        $review = $inputData->review;
+
+        $result = Session::where('user_id', $idUser)
+                    ->where('status', 1)
+                    ->orderBy('id', 'desc')
+                    ->limit(1)
+                    ->update(['review' => $review]);
+
+        return response()->json($result, 200);
+    }
+
     public function testApi($test){
 
         Storage::put('test.txt', $test);
