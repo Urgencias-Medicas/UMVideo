@@ -42,4 +42,7 @@ Route::GET('decrypt/{text}', 'SessionController@decrypt');
 
 Route::GET('testNotifications', 'UserController@testNotifications');
 
+Route::GET('getRecords', 'RecordController@index');
+
 Route::POST('reviewDr', 'SessionController@reviewSession');
+
