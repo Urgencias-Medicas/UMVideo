@@ -177,7 +177,7 @@ class SessionController extends Controller
         $review = $inputData->review;
 
         $result = Session::where('user_id', $idUser)
-                    ->where('status', 1)
+                    ->where('status', 2)
                     ->orderBy('id', 'desc')
                     ->limit(1)
                     ->update(['review' => $review]);
