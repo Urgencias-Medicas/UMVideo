@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\SmartApiLog;
 use App\Http\Controllers\QueueController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ShiftController;
@@ -35,6 +36,15 @@ class UserController extends Controller
                         )
                     ), 1, 1);
             }
+
+            SmartApiLog::create([
+                "method" => "602",
+                "idUser" => $idUser,
+                "idAfiliado" => $afiliadoID,
+                "nedicalNum" => $medicalNum,
+                "codigo" => $session_id,
+                "crypt" => $data
+            ]);
 
             $curl = curl_init();
             curl_setopt_array($curl, array(
