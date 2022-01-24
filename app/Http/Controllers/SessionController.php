@@ -228,7 +228,7 @@ class SessionController extends Controller
 
         $busyDoctors = Appointments::where('date', $date)->whereTime('time', '=', $time)->select('doctor')->get()->toArray();
 
-        $availableDoctors = User::whereNotNull('pruebaApp')->whereNotIn('id', $busyDoctors)->get();
+        $availableDoctors = User::whereNotNull('pruebaApp')->whereNotIn('id', $busyDoctors)->select('name as key')->get();
 
         return response()->json($availableDoctors, 200);
         
