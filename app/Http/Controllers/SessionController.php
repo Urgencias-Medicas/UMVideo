@@ -294,4 +294,12 @@ class SessionController extends Controller
 
         return response()->json($appointments, 200);
     }
+
+    public function viewAppointment($id){
+        $appointment = Appointments::where('id', $id)->first();
+        $appointment->date = Carbon::parse($appointment->date)->format('d/m/Y');
+        $appointment->time = Carbon::parse($appointment->time)->format('H:i');
+
+        return view('appointments.view', ['Appointment' => $appointment]);
+    }
 }

@@ -14,6 +14,9 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Ecdsa\Sha256;
 use Lcobucci\JWT\Configuration;
 
+use Carbon\Carbon;
+use App\Appointments;
+
 class HomeController extends Controller
 {
     /**
@@ -31,7 +34,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Request $request)
+    /*public function index(Request $request)
     {
         $id_u = auth()->user()->id;
         $name_u = auth()->user()->name;
@@ -66,6 +69,22 @@ class HomeController extends Controller
         $jwt = $base64UrlHeader.".".$base64UrlPayload.".".$base64UrlSignature;
 
         return view('home', ['in' => $request->input('in'), 'out' => $request->input('out'), 'roomName' => $roomName, 'jwt' => $jwt, 'name_u' => $name_u, 'value' => $value, 'dataDr' => $dataDr]);
+    }*/
+
+    public function index(){
+        $user = auth()->user();
+
+        $userAppointments = Appointments::where('doctor', $user->id)->select('time as title', 'date as date', 'time as time', 'id', 'roomName')->get();
+
+        foreach($userAppointments as $appointment){
+            $appointment->title = Carbon::parse($appointment->title)->format('H:i').' - '.Carbon::parse($appointment->time)->addMinutes(30)->format('H:i');
+            $appointment->duration = 30;
+            //$appointment->url = '/appointments/'.$appointment->id;
+            $appointment->url = 'https://smartla.daily.co/'.$appointment->roomName;
+        }
+
+        //return $userAppointments;
+        return view('home', ['userAppointments' => $userAppointments]);
     }
 
     public function send($id, $title, $body, $link){
