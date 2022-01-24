@@ -179,11 +179,13 @@ class SessionController extends Controller
         $idUser = $inputData->id;
         $review = $inputData->review;
 
-        $result = Session::where('user_id', $idUser)
+        $result = Session::where('client_id', $idUser)
                     ->where('status', 2)
                     ->orderBy('id', 'desc')
                     ->limit(1)
                     ->update(['review' => $review]);
+                    
+        //$result = Session::where('client_id', $idUser)->where('status', 2)->orderBy('id', 'desc')->limit(1)->get();
 
         return response()->json($result, 200);
     }
