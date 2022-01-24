@@ -46,3 +46,5 @@ Route::GET('getRecords', 'RecordController@index');
 
 Route::POST('reviewDr', 'SessionController@reviewSession');
 
+Route::GET('getAvailableDoctors', 'SessionController@getAvailableDoctors');
+

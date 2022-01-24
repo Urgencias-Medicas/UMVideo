@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Exports\SessionExport;
 use App\Session;
+use App\Appointments;
+use App\User;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 use Storage;
 
 class SessionController extends Controller
@@ -210,5 +213,32 @@ class SessionController extends Controller
         $decrypt = Helper::cryptR($text, 0);
 
         return var_dump($decrypt);
+    }
+
+    public function getAvailableDoctors(Request $request){
+        $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
+        $time = Carbon::parse($request->time)->format('H:i:s');
+        //$oneHourAfterTime = Carbon::parse($time)->addHour()->format('H:i:s');
+
+        $appointments = Appointments::get();
+        foreach($appointments as $appointment){
+            $appointment->date = Carbon::parse($appointment->date)->format('d/m/Y');
+            $appointment->time = Carbon::parse($appointment->time)->format('H:i');
+        }
+
+        $busyDoctors = Appointments::where('date', $date)->whereTime('time', '=', $time)->select('doctor')->get()->toArray();
+
+        $availableDoctors = User::whereNotNull('pruebaApp')->whereNotIn('id', $busyDoctors)->get();
+
+        return response()->json($availableDoctors, 200);
+        
+
+        //return $appointments;
+    }
+
+    public function getPendingAppointsments(Request $request){
+        $appointments = Appointments::where('user', $request->user)->where('status', 'active')->get();
+
+        return response()->json($appointments, 200);
     }
 }
