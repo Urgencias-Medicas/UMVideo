@@ -6,6 +6,7 @@ use App\Exports\SessionExport;
 use App\Session;
 use App\Appointments;
 use App\User;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use Maatwebsite\Excel\Facades\Excel;
@@ -217,6 +218,41 @@ class SessionController extends Controller
         return var_dump($decrypt);
     }
 
+    public function createAppointment(Request $request){
+        $doctor = $request->doctor;
+        $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
+        $time = Carbon::parse($request->time)->format('H:i:s');
+        $user = $request->afiliado;
+
+        $doctor = User::where('name', $doctor)->first();
+
+        $roomName = $user.'-'.$doctor->id.'-'.$date.'-'.$time;
+
+        $response = Http::withOptions([
+            'verify' => false
+        ])->post('https://media.smartla.net/smart-media-gw/service/video-call/create', [
+            'meetingName' => $roomName,
+            'mmetingType' => 'Cita MicoopeApp',
+        ]);
+
+        $response = $response->json();
+
+        //return $response['meeting'];
+
+        $appointment = new Appointments();
+        $appointment->doctor = $doctor->id;
+        $appointment->user = $user;
+        $appointment->date = $date;
+        $appointment->time = $time;
+        $appointment->status = 'active';
+        $appointment->videourl = $response['meeting']['meetingUrl'];
+        $appointment->roomName = $response['meeting']['roomName'];
+        $appointment->save();
+
+        return response()->json($appointment, 200);
+
+    }
+
     public function getAvailableDoctors(Request $request){
         $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
         $time = Carbon::parse($request->time)->format('H:i:s');
@@ -238,8 +274,14 @@ class SessionController extends Controller
         //return $appointments;
     }
 
-    public function getPendingAppointsments(Request $request){
+    public function getPendingAppointments(Request $request){
         $appointments = Appointments::where('user', $request->user)->where('status', 'active')->get();
+
+        return response()->json($appointments, 200);
+    }
+
+    public function getPastAppointments(Request $request){
+        $appointments = Appointments::where('user', $request->user)->where('status', 'finished')->get();
 
         return response()->json($appointments, 200);
     }
