@@ -277,11 +277,20 @@ class SessionController extends Controller
     public function getPendingAppointments(Request $request){
         $appointments = Appointments::where('user', $request->user)->where('status', 'active')->get();
 
+        foreach($appointments as $appointment){
+            $doctorName = User::where('id', $appointment->doctor)->select('name')->first();
+            $appointment->doctor = $doctorName->name;
+        }
+
         return response()->json($appointments, 200);
     }
 
     public function getPastAppointments(Request $request){
         $appointments = Appointments::where('user', $request->user)->where('status', 'finished')->get();
+        foreach($appointments as $appointment){
+            $doctorName = User::where('id', $appointment->doctor)->select('name')->first();
+            $appointment->doctor = $doctorName->name;
+        }
 
         return response()->json($appointments, 200);
     }
