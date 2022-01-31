@@ -34,7 +34,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Request $request)
+    /*public function index(Request $request)
     {
         $id_u = auth()->user()->id;
         $name_u = auth()->user()->name;
@@ -69,9 +69,9 @@ class HomeController extends Controller
         $jwt = $base64UrlHeader.".".$base64UrlPayload.".".$base64UrlSignature;
 
         return view('home', ['in' => $request->input('in'), 'out' => $request->input('out'), 'roomName' => $roomName, 'jwt' => $jwt, 'name_u' => $name_u, 'value' => $value, 'dataDr' => $dataDr]);
-    }
+    }*/
 
-    /*public function index(){
+    public function index(){
         $user = auth()->user();
 
         $userAppointments = Appointments::where('doctor', $user->id)->select('time as title', 'date as date', 'time as time', 'id', 'roomName')->get();
@@ -85,7 +85,7 @@ class HomeController extends Controller
 
         //return $userAppointments;
         return view('home', ['userAppointments' => $userAppointments]);
-    }*/
+    }
 
     public function send($id, $title, $body, $link){
         //$user = Client::find($id);
