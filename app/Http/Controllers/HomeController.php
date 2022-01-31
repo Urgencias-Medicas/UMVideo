@@ -79,8 +79,8 @@ class HomeController extends Controller
         foreach($userAppointments as $appointment){
             $appointment->title = Carbon::parse($appointment->title)->format('H:i').' - '.Carbon::parse($appointment->time)->addMinutes(30)->format('H:i');
             $appointment->duration = 30;
-            //$appointment->url = '/appointments/'.$appointment->id;
-            $appointment->url = 'https://smartla.daily.co/'.$appointment->roomName;
+            $appointment->url = '/appointments/'.$appointment->id;
+            //$appointment->url = 'https://smartla.daily.co/'.$appointment->roomName;
         }
 
         //return $userAppointments;
