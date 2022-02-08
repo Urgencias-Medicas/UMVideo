@@ -27,6 +27,5 @@ Route::get('/enviarNotificacion/{id}/{title}/{body}/{link}', 'HomeController@sen
 Route::group(['prefix' => 'appointments'], function () {
     Route::get('/{id}', 'SessionController@viewAppointment')->name('appointments.index');
     Route::get('/{id}/edit', 'AppointmentController@edit')->name('appointments.edit');
-    Route::post('/{id}/update', 'AppointmentController@update')->name('appointments.update');
-    Route::get('/{id}/destroy', 'AppointmentController@destroy')->name('appointments.destroy');
+    Route::get('/{id}/end', 'SessionController@endAppointment')->name('appointments.end');
 });

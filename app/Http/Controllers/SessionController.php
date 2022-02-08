@@ -275,7 +275,7 @@ class SessionController extends Controller
     }
 
     public function getPendingAppointments(Request $request){
-        $appointments = Appointments::where('user', $request->user)->where('status', 'active')->get();
+        $appointments = Appointments::where('user', $request->user)->where('status', 'active')->orderBy('date', 'desc')->orderBy('time', 'desc')->get();
 
         foreach($appointments as $appointment){
             $doctorName = User::where('id', $appointment->doctor)->select('name')->first();
@@ -286,7 +286,7 @@ class SessionController extends Controller
     }
 
     public function getPastAppointments(Request $request){
-        $appointments = Appointments::where('user', $request->user)->where('status', 'finished')->get();
+        $appointments = Appointments::where('user', $request->user)->where('status', 'finished')->orderBy('date', 'desc')->orderBy('time', 'desc')->get();
         foreach($appointments as $appointment){
             $doctorName = User::where('id', $appointment->doctor)->select('name')->first();
             $appointment->doctor = $doctorName->name;
@@ -301,5 +301,13 @@ class SessionController extends Controller
         $appointment->time = Carbon::parse($appointment->time)->format('H:i');
 
         return view('appointments.view', ['Appointment' => $appointment]);
+    }
+
+    public function endAppointment($id){
+        $appointment = Appointments::where('id', $id)->first();
+        $appointment->status = 'finished';
+        $appointment->save();
+
+        return redirect('/');
     }
 }

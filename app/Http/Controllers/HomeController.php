@@ -74,7 +74,7 @@ class HomeController extends Controller
     public function index(){
         $user = auth()->user();
 
-        $userAppointments = Appointments::where('doctor', $user->id)->select('time as title', 'date as date', 'time as time', 'id', 'roomName')->get();
+        $userAppointments = Appointments::where('doctor', $user->id)->where('status', 'active')->select('time as title', 'date as date', 'time as time', 'id', 'roomName')->get();
 
         foreach($userAppointments as $appointment){
             $appointment->title = Carbon::parse($appointment->title)->format('H:i').' - '.Carbon::parse($appointment->time)->addMinutes(30)->format('H:i');
