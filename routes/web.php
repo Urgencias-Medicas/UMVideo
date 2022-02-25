@@ -20,9 +20,12 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes(['register' => false]);
 
+Route::get('/changePassword', 'HomeController@changePassword')->name('changePassword');
+Route::post('/changePassword', 'HomeController@changePasswordPost')->name('changePasswordPost');
+
 Route::match(['get', 'post'], '/', 'HomeController@index')->name('home');
 
-Route::get('/enviarNotificacion/{id}/{title}/{body}/{link}', 'HomeController@send');
+//Route::get('/enviarNotificacion/{id}/{title}/{body}/{link}', 'HomeController@send');
 
 Route::get('/appointments', 'SessionController@appointments')->name('appointments');
 Route::get('/appointmentsexport', 'SessionController@exportAppointments')->name('exportAppointments');

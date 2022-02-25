@@ -9,6 +9,8 @@ use App\Helpers\Helper;
 use NotificationChannels\Apn\ApnChannel;
 use NotificationChannels\Apn\ApnMessage;
 use App\Client;
+use Hash;
+use Auth;
 
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Ecdsa\Sha256;
@@ -112,5 +114,33 @@ class HomeController extends Controller
         }
 
         return 'hecho';
+    }
+
+    public function changePassword(){
+        return view('auth.passwords.change');
+    }
+
+    public function changePasswordPost(Request $request) {
+        if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
+            // The passwords matches
+            return redirect()->back()->with("error","Las contraseñas no coinciden.");
+        }
+
+        if(strcmp($request->get('current-password'), $request->get('new-password')) == 0){
+            // Current password and new password same
+            return redirect()->back()->with("error","Tu nueva contraseña no puede ser la misma que la anterior.");
+        }
+
+        $validatedData = $request->validate([
+            'current-password' => 'required',
+            'new-password' => 'required|string|min:8|confirmed',
+        ]);
+
+        //Change Password
+        $user = Auth::user();
+        $user->password = bcrypt($request->get('new-password'));
+        $user->save();
+
+        return redirect()->back()->with("success","Contraseña cambiada correctamente");
     }
 }
