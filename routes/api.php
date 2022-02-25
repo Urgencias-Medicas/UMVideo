@@ -48,7 +48,7 @@ Route::POST('reviewDr', 'SessionController@reviewSession');
 
 Route::GET('getAvailableDoctors', 'SessionController@getAvailableDoctors');
 
-Route::GET('createAppointment', 'SessionController@createAppointment');
+Route::POST('createAppointment', 'SessionController@createAppointment');
 
 Route::GET('getPendingAppointments', 'SessionController@getPendingAppointments');
 
