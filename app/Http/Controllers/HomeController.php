@@ -74,6 +74,10 @@ class HomeController extends Controller
     public function index(){
         $user = auth()->user();
 
+        if($user->hasRole('reporteria')){
+            return redirect('/appointments');
+        }
+
         $userAppointments = Appointments::where('doctor', $user->id)->where('status', 'active')->select('time as title', 'date as date', 'time as time', 'id', 'roomName')->get();
 
         foreach($userAppointments as $appointment){
