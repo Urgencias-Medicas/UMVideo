@@ -244,6 +244,12 @@ class SessionController extends Controller
         $appointment->user = $user;
         $appointment->date = $date;
         $appointment->time = $time;
+        $appointment->apellidos = $request->userApellidos;
+        $appointment->nombres = $request->userNombres;
+        $appointment->telefono = $request->userTelefono;
+        $appointment->tipo = $request->userTipo;
+        $appointment->idInterno = $request->userId;
+        $appointment->producto = $request->producto;
         $appointment->status = 'active';
         $appointment->videourl = $response['meeting']['meetingUrl'];
         $appointment->roomName = $response['meeting']['roomName'];
@@ -256,21 +262,28 @@ class SessionController extends Controller
     public function getAvailableDoctors(Request $request){
         $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
         $time = Carbon::parse($request->time)->format('H:i:s');
+        $timeplusmin = Carbon::parse($request->time)->addMinutes(1)->format('H:i:s');
         //$oneHourAfterTime = Carbon::parse($time)->addHour()->format('H:i:s');
 
-        $appointments = Appointments::get();
+        /*$appointments = Appointments::get();
         foreach($appointments as $appointment){
             $appointment->date = Carbon::parse($appointment->date)->format('d/m/Y');
             $appointment->time = Carbon::parse($appointment->time)->format('H:i');
-        }
+        }*/
 
-        $busyDoctors = Appointments::where('date', $date)->whereTime('time', '=', $time)->select('doctor')->get()->toArray();
 
-        $availableDoctors = User::where('status', 1)->whereNotIn('id', $busyDoctors)->select('name as key')->get();
 
-        return response()->json($availableDoctors, 200);
+        $busyDoctors = Appointments::where('status', 'active')->where('date', $date)->whereTime('time', '=', $time)->select('doctor')->get()->toArray();
+
+        $workingDoctors = User::where('status', 1)->whereTime('inicioHorario', '<=', $timeplusmin)->whereTime('finHorario', '>=', $timeplusmin)->select('id')->get()->toArray();
+
+        $noCDoctors = User::where('status', 1)->whereTime('inicioHorarioNoC', '<=', $timeplusmin)->whereTime('finHorarioNoC', '>=', $timeplusmin)->select('id')->get()->toArray();
+
+        $lunchingDoctors = User::where('status', 1)->whereTime('inicioHorarioA', '<=', $timeplusmin)->whereTime('finHorarioA', '>=', $timeplusmin)->select('id')->get()->toArray();
+
+        $availableDoctors = User::where('status', 1)->whereIn('id', $workingDoctors)->whereNotIn('id', $busyDoctors)->whereNotIn('id', $noCDoctors)->whereNotIn('id', $lunchingDoctors)->select('name as key')->get();
         
-
+        return response()->json($availableDoctors, 200);
         //return $appointments;
     }
 

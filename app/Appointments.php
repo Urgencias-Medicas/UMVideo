@@ -12,6 +12,6 @@ class Appointments extends Model
      * @var array
      */
     protected $fillable = [
-        'doctor', 'user', 'date', 'time', 'status', 'videourl', 'roomName', 'record'
+        'doctor', 'user', 'date', 'time', 'status', 'videourl', 'roomName', 'record', 'apellidos', 'nombres', 'telefono', 'tipo', 'idInterno', 'producto'
     ];
 }
