@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\SessionExport;
+use App\Exports\AppointmentsExport;
 use App\Session;
 use App\Appointments;
 use App\User;
@@ -23,6 +24,21 @@ class SessionController extends Controller
                             ->get();
 
         return view('session', ['sessions' => $sessions]);
+    }
+
+    public function appointments(){
+        $appointments = Appointments::orderBy('id', 'desc')->get();
+
+        foreach($appointments as $appointment){
+            $doctor_name = User::where('id', $appointment->doctor)->select('name')->get();
+            $appointment->doctor = $doctor_name[0]->name;
+        }
+
+        return view('appointments', ['appointments' => $appointments]);
+    }
+
+    public function exportAppointments(){
+        return Excel::download(new AppointmentsExport, 'citas.xlsx');
     }
 
     public function export() 

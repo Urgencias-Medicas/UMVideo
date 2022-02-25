@@ -45,6 +45,56 @@
                                     </td>
                                 </tr>
                             </table>
+                            <div class="row">
+                                <div class="col">
+                                    <h4>Horarios</h4>
+                                </div>
+                            </div>
+                            <h4>Jornada Laboral</h4>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Inicio</span>
+                                        <input name="inicioHorario" type="time" class="form-control" value="{{$object->inicioHorario}}" placeholder="00:00">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Fin</span>
+                                        <input name="finHorario" type="time" class="form-control" value="{{$object->finHorario}}" placeholder="00:00">
+                                    </div>
+                                </div>
+                            </div>
+                            <h4>No citas</h4>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Inicio</span>
+                                        <input name="inicioHorarioNoC" type="time" class="form-control" value="{{$object->inicioHorarioNoC}}" placeholder="00:00">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Fin</span>
+                                        <input name="finHorarioNoC" type="time" class="form-control" value="{{$object->finHorarioNoC}}" placeholder="00:00">
+                                    </div>
+                                </div>
+                            </div>
+                            <h4>Almuerzo</h4>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Inicio</span>
+                                        <input name="inicioHorarioA" type="time" class="form-control" value="{{$object->inicioHorarioA}}" placeholder="00:00">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Fin</span>
+                                        <input name="finHorarioA" type="time" class="form-control" value="{{$object->finHorarioA}}" placeholder="00:00">
+                                    </div>
+                                </div>
+                            </div>
 
                             @foreach ($object->roles as $role)
                                 <script>

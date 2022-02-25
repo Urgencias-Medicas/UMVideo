@@ -24,6 +24,9 @@ Route::match(['get', 'post'], '/', 'HomeController@index')->name('home');
 
 Route::get('/enviarNotificacion/{id}/{title}/{body}/{link}', 'HomeController@send');
 
+Route::get('/appointments', 'SessionController@appointments')->name('appointments');
+Route::get('/appointmentsexport', 'SessionController@exportAppointments')->name('exportAppointments');
+
 Route::group(['prefix' => 'appointments'], function () {
     Route::get('/{id}', 'SessionController@viewAppointment')->name('appointments.index');
     Route::get('/{id}/edit', 'AppointmentController@edit')->name('appointments.edit');

@@ -55,6 +55,14 @@ class AdminController extends Controller
                 $user->name = $request->input('newName');
                 $user->medicalNum = $request->input('newMedNum');
                 $user->email = $request->input('newEmail');
+
+                $user->inicioHorario = $request->input('inicioHorario');
+                $user->finHorario = $request->input('finHorario');
+                $user->inicioHorarioNoC = $request->input('inicioHorarioNoC');
+                $user->finHorarioNoC = $request->input('finHorarioNoC');
+                $user->inicioHorarioA = $request->input('inicioHorarioA');
+                $user->finHorarioA = $request->input('finHorarioA');
+
                 $user->save();
 
             } elseif ($request->input('edt_btn') == "Editar Rol") {

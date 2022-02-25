@@ -41,12 +41,17 @@
                         @hasanyrole('super_admin|admin')
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('session') }}">{{ __('Sesiones') }}</a>
+                                <a class="nav-link" href="{{ route('appointments') }}">{{ __('Sesiones') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin') }}">{{ __('Administración') }}</a>
                             </li>
                         @endhasanyrole
+                        @hasrole('reporteria')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('appointments') }}">{{ __('Sesiones') }}</a>
+                        </li>
+                        @endrole
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
