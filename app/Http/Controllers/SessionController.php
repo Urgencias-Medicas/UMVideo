@@ -18,6 +18,7 @@ class SessionController extends Controller
 {
 
     public static function smartAPI($idUser, $medicalNum, $session_id = 0, $afiliadoID = 0) {
+        $data = '';
         if($session_id != 0){
             if($afiliadoID != 0){
                 $data = Helper::cryptR(
@@ -61,7 +62,12 @@ class SessionController extends Controller
             ));
 
             curl_exec($curl);
+
+            //return $response;
+
+            //return $data;
         }
+
     }
 
     public function index()
@@ -319,7 +325,8 @@ class SessionController extends Controller
         $appointment->roomName = $response['meeting']['roomName'];
         $appointment->save();
 
-        SessionController::smartAPI($user, $doctor->medicalNum, $appointment->id);
+        //return $user.'-'.$doctor->medicalNum.'-'.$appointment->id;
+        SessionController::smartAPI($request->userId, $doctor->medicalNum, $appointment->id, $user);
 
         return response()->json($appointment, 200);
 
