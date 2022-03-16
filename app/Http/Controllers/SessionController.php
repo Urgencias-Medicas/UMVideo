@@ -16,6 +16,54 @@ use Storage;
 
 class SessionController extends Controller
 {
+
+    public static function smartAPI($idUser, $medicalNum, $session_id = 0, $afiliadoID = 0) {
+        if($session_id != 0){
+            if($afiliadoID != 0){
+                $data = Helper::cryptR(
+                    array(
+                        array(
+                            "method" => "602",
+                            "IdUser" => $idUser,
+                            "IdAfiliado" => $afiliadoID,
+                            "MedicalNum" => $medicalNum,
+                            "Codigo" => $session_id
+                        )
+                    ), 1, 1);
+            }else{
+                $data = Helper::cryptR(
+                    array(
+                        array(
+                            "method" => "602",
+                            "IdUser" => $idUser,
+                            "MedicalNum" => $medicalNum,
+                            "Codigo" => $session_id
+                        )
+                    ), 1, 1);
+            }
+
+            /*SmartApiLog::create([
+                "method" => "602",
+                "idUser" => $idUser,
+                "idAfiliado" => $afiliadoID,
+                "nedicalNum" => $medicalNum,
+                "codigo" => $session_id,
+                "crypt" => $data
+            ]);*/
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "http://umwsdl.smartla.net/wsdl_um.php",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => array('data' => $data),
+            ));
+
+            curl_exec($curl);
+        }
+    }
+
     public function index()
     {
         $sessions = Session::select('sessions.id as id', 'users.name as doctor','client_id as paciente', 'afiliado_id as afiliado', 'sessions.status as status', 'sessions.created_at as start_time', 'sessions.updated_at as end_time', 'rec_name as recording')
@@ -270,6 +318,8 @@ class SessionController extends Controller
         $appointment->videourl = $response['meeting']['meetingUrl'];
         $appointment->roomName = $response['meeting']['roomName'];
         $appointment->save();
+
+        SessionController::smartAPI($user, $doctor->medicalNum, $appointment->id);
 
         return response()->json($appointment, 200);
 
