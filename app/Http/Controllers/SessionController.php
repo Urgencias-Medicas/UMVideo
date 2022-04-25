@@ -298,6 +298,18 @@ class SessionController extends Controller
 
         $roomName = $user.'-'.$doctor->id.'-'.$date.'-'.$time;
 
+        $checkForAppointment = Appointment::where('doctor_id', $doctor->id)
+        ->where('date', $date)
+        ->where('time', $time)
+        ->first();
+
+        if($checkForAppointment){
+            return response()->json([
+                'status' => 0,
+                'message' => 'Ya existe una cita para este doctor en esta fecha y hora'
+            ], 400);
+        }
+
         $response = Http::withOptions([
             'verify' => false
         ])->post('https://media.smartla.net/smart-media-gw/service/video-call/create', [
