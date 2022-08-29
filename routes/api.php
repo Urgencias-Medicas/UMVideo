@@ -52,5 +52,7 @@ Route::POST('createAppointment', 'SessionController@createAppointment');
 
 Route::GET('getPendingAppointments', 'SessionController@getPendingAppointments');
 
+Route::POST('createFastAppointment', 'SessionController@createInstantAppointment');
+
 Route::GET('getPastAppointments', 'SessionController@getPastAppointments');
 

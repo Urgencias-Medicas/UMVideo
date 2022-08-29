@@ -14,6 +14,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use Storage;
 
+use DB;
+
 class SessionController extends Controller
 {
 
@@ -393,6 +395,61 @@ class SessionController extends Controller
         return response()->json($appointments, 200);
     }
 
+    public function createInstantAppointment(Request $request){
+
+        $date = Carbon::now()->format('Y-m-d H:i:s');
+        $user = $request->afiliado;
+        $idInterno = $request->userId;
+        $apellidos = $request->userApellidos;
+        $nombres = $request->userNombres;
+        $roomName = $user.'-'.$date;
+        
+        $response = Http::withOptions([
+            'verify' => false
+        ])->post('https://media.smartla.net/smart-media-gw/service/video-call/create', [
+            'meetingName' => $roomName,
+            'mmetingType' => 'Cita MicoopeApp',
+        ]);
+
+        $response = $response->json();
+
+        //return $response['meeting'];
+
+        $appointment = DB::table('fastAppointments')->insertGetId([
+            'user' => $user,
+            'nombres' => $nombres,
+            'apellidos' => $apellidos,
+            'idInterno' => $idInterno,
+            'roomName' => $response['meeting']['roomName'],
+            'videourl' => $response['meeting']['meetingUrl'],
+            'status' => 0,
+        ]);
+
+        $appointment = DB::table('fastAppointments')->where('id', $appointment)->first();
+
+        //return $user.'-'.$doctor->medicalNum.'-'.$appointment->id;
+        //SessionController::smartAPI($request->userId, $doctor->medicalNum, $appointment->id, $user);
+
+        return response()->json($appointment, 200);
+    }
+
+    public function fastAppointments(){
+        $fastAppointments = DB::table('fastAppointments')
+        ->where('status', '!=', 2)
+        ->orderBy('id', 'desc')
+        ->get();
+
+        return view('appointments.fastList', ['Appointments' => $fastAppointments]);
+    }
+
+    public function viewFastAppointment($id){
+        $appointment = DB::table('fastAppointments')->where('id', $id)->first();
+
+        $updateStatus = DB::table('fastAppointments')->where('id', $id)->update(['status' => 1]);
+
+        return view('appointments.viewFast', ['Appointment' => $appointment]);
+    }
+
     public function viewAppointment($id){
         $appointment = Appointments::where('id', $id)->first();
         $appointment->date = Carbon::parse($appointment->date)->format('d/m/Y');
@@ -407,5 +464,11 @@ class SessionController extends Controller
         $appointment->save();
 
         return redirect('/');
+    }
+
+    public function endFastAppointment($id){
+        $appointment = DB::table('fastAppointments')->where('id', $id)->update(['status' => 2]);
+
+        return redirect('/citasRapidas');
     }
 }

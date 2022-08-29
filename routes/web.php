@@ -29,6 +29,9 @@ Route::match(['get', 'post'], '/', 'HomeController@index')->name('home');
 
 Route::get('/appointments', 'SessionController@appointments')->name('appointments');
 Route::get('/appointmentsexport', 'SessionController@exportAppointments')->name('exportAppointments');
+Route::get('citasRapidas', 'SessionController@fastAppointments')->name('fastAppointments');
+Route::get('verCitaRapida/{id}', 'SessionController@viewFastAppointment')->name('viewFastAppointment');
+Route::get('citaRapidaEnd/{id}', 'SessionController@endFastAppointment')->name('endFastAppointment');
 
 Route::group(['prefix' => 'appointments'], function () {
     Route::get('/{id}', 'SessionController@viewAppointment')->name('appointments.index');
