@@ -81,10 +81,23 @@ class UserController extends Controller
             UserController::smartAPI($userID, $person->medicalNum, $session_id);
 
             date_default_timezone_set('America/Guatemala');
+
+            $roomName = sha1("&%" . str_replace(" ", "&%", $person->name) . "&%" . date("l&%d&%m&%Y")) . $person->id;
+        
+            $response = Http::withOptions([
+                'verify' => false
+            ])->post('https://media.smartla.net/smart-media-gw/service/video-call/create', [
+                'meetingName' => $roomName,
+                'mmetingType' => 'Cita MicoopeApp',
+            ]);
+
+            $response = $response->json();
+
             $content = array(
                 'waitCount' => 0,
                 'waitTime' => 0,
-                'link' => 'https://videos.excess.software/' . sha1("&%" . str_replace(" ", "&%", $person->name) . "&%" . date("l&%d&%m&%Y")) . $person->id,
+                //'link' => 'https://videos.excess.software/' . sha1("&%" . str_replace(" ", "&%", $person->name) . "&%" . date("l&%d&%m&%Y")) . $person->id,
+                'link' => 'https://smartla.daily.co/'.$response['meeting']['roomName'],
                 'status' => 1
             );
 
@@ -154,10 +167,23 @@ class UserController extends Controller
             UserController::smartAPI($userID, $person->medicalNum, $session_id, $afiliadoID);
 
             date_default_timezone_set('America/Guatemala');
+
+            $roomName = sha1("&%" . str_replace(" ", "&%", $person->name) . "&%" . date("l&%d&%m&%Y")) . $person->id;
+        
+            $response = Http::withOptions([
+                'verify' => false
+            ])->post('https://media.smartla.net/smart-media-gw/service/video-call/create', [
+                'meetingName' => $roomName,
+                'mmetingType' => 'Cita MicoopeApp',
+            ]);
+
+            $response = $response->json();
+
             $content = array(
                 'waitCount' => 0,
                 'waitTime' => 0,
-                'link' => 'https://videos.excess.software/' . sha1("&%" . str_replace(" ", "&%", $person->name) . "&%" . date("l&%d&%m&%Y")) . $person->id,
+                //'link' => 'https://videos.excess.software/' . sha1("&%" . str_replace(" ", "&%", $person->name) . "&%" . date("l&%d&%m&%Y")) . $person->id,
+                'link' => 'https://smartla.daily.co/'.$response['meeting']['roomName'],
                 'status' => 1
             );
 
@@ -273,11 +299,23 @@ class UserController extends Controller
                 $person = QueueController::getFirstInQueue();
                 if ($person) {
 
+                    $roomName = sha1("&%" . str_replace(" ", "&%", $name_u) . "&%" . date("l&%d&%m&%Y")) . $id_u;
+        
+                    $response = Http::withOptions([
+                        'verify' => false
+                    ])->post('https://media.smartla.net/smart-media-gw/service/video-call/create', [
+                        'meetingName' => $roomName,
+                        'mmetingType' => 'Cita MicoopeApp',
+                    ]);
+
+                    $response = $response->json();
+
                     date_default_timezone_set('America/Guatemala');
                     $data = array(
                         'title' => "Presiona aquí para entrar a la videollamada",
                         'body' => "¡Un Doctor Está Listo Para Atenderte!",
-                        'link' => 'https://videos.excess.software/' . sha1("&%" . str_replace(" ", "&%", $name_u) . "&%" . date("l&%d&%m&%Y")) . $id_u
+                        //'link' => 'https://videos.excess.software/' . sha1("&%" . str_replace(" ", "&%", $name_u) . "&%" . date("l&%d&%m&%Y")) . $id_u
+                        'link' => 'https://smartla.daily.co/'.$response['meeting']['roomName'],
                     );
 
                     $tokens = ClientController::getToken($person->idDevice);
