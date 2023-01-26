@@ -446,7 +446,7 @@ class SessionController extends Controller
         $appointment = DB::table('fastAppointments')->where('id', $id)->first();
 
         $updateStatus = DB::table('fastAppointments')->where('id', $id)->update(['status' => 1]);
-
+        //UserController::smartAPI(50427, 20846, 2023, 575047);
         return view('appointments.viewFast', ['Appointment' => $appointment]);
     }
 
@@ -470,5 +470,11 @@ class SessionController extends Controller
         $appointment = DB::table('fastAppointments')->where('id', $id)->update(['status' => 2]);
 
         return redirect('/citasRapidas');
+    }
+
+    public function createRecipe($userid,$colegiado,$idAfiliado)
+    {
+        UserController::smartAPI($userid, $colegiado, 2023, $idAfiliado);
+        return response()->json(200);
     }
 }
