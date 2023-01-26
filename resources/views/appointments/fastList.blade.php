@@ -20,7 +20,7 @@
                                 @endif
                                 <br>
                                 <br>
-                                <a href="/verCitaRapida/{{$Appointment->id}}" type="button" class="btn btn-primary">Ingresar</a>
+                                <a id="answercall_{{$Appointment->id}}" onclick="sendRecipeRequest(this)" name ="{{$Appointment->id}}" href="#" type="button" class="btn btn-primary">Ingresar</a>
                             </div>
                         </div>
                     </div>
@@ -36,4 +36,17 @@
     setTimeout(function(){
         window.location.reload(1);
     }, 5000);
+
+
+    function sendRecipeRequest(item)
+    {
+        console.log(item.name)
+        fetch('/api/createRecipeApi/50427/20846/575047/', {
+        method: "POST"
+        })
+        .then(response => response.json()) 
+        .then(json => console.log(json))
+        .then(window.location.href="/verCitaRapida/"+item.name)
+        //.catch(err => console.log(err));
+    }
 </script>
