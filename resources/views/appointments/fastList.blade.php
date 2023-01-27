@@ -33,24 +33,20 @@
 @endsection
 
 <script>
-    function reloadWindow(status)
+    const myTimeout  = setTimeout(function(){
+        window.location.reload(1);
+    }, 5000);
+    
+    
+    function stopReloadWindow()
     {
-        if(status)
-        {
-            setTimeout(function(){
-            window.location.reload(1);
-        }, 5000);
-        }
-
+        clearTimeout(myTimeout);
     }
-
-    reloadWindow(true)
-
 
 
     function sendRecipeRequest(item)
     {
-        reloadWindow(false)
+        stopReloadWindow()
         var url= '/api/createRecipeApi/'+item.name+'/{{ Auth::user()->id}}/'
         console.log(url)
         fetch(url, {
