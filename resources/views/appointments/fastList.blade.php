@@ -33,20 +33,32 @@
 @endsection
 
 <script>
-    setTimeout(function(){
-        window.location.reload(1);
-    }, 5000);
+    function reloadWindow(status)
+    {
+        if(status)
+        {
+            setTimeout(function(){
+            window.location.reload(1);
+        }, 5000);
+        }
+
+    }
+
+    reloadWindow(true)
+
 
 
     function sendRecipeRequest(item)
     {
-        console.log(item.name)
-        fetch('/api/createRecipeApi/50427/20846/575047/', {
+        reloadWindow(false)
+        var url= '/api/createRecipeApi/'+item.name+'/{{ Auth::user()->id}}/'
+        console.log(url)
+        fetch(url, {
         method: "POST"
         })
         .then(response => response.json()) 
         .then(json => console.log(json))
         .then(window.location.href="/verCitaRapida/"+item.name)
-        //.catch(err => console.log(err));
+        .catch(err => console.log(err));
     }
 </script>
