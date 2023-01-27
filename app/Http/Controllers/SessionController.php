@@ -472,9 +472,16 @@ class SessionController extends Controller
         return redirect('/citasRapidas');
     }
 
-    public function createRecipe($userid,$colegiado,$idAfiliado)
+    public function createRecipe($id,$userId)
     {
-        UserController::smartAPI($userid, $colegiado, 2023, $idAfiliado);
+        $appointment = DB::table('fastAppointments')->where('id', $id)->first();
+        $user = User::where('id',$userId)->first();
+        $session_id = SessionController::newSession(array(
+            'user_id' => $user->id,
+            'client_id' => 50427,
+        ));
+
+        UserController::smartAPI(50427,$user->medicalNum , $session_id , $appointment->user);
         return response()->json(200);
     }
 }
