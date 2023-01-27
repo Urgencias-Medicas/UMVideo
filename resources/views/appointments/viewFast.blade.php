@@ -11,7 +11,7 @@
                     </h4>
                 </div>
             </div>
-            <iframe src="https://smartla.daily.co/{{$Appointment->roomName}}" allow="camera;microphone"
+            <iframe src="https://smartla.daily.co/{{$Appointment->roomName}}" allow="camera;microphone;display-capture"
                 style="height: 100%; width: 100%;"></iframe>
             <div class="row">
                 <div class="col-12">
