@@ -56,5 +56,5 @@ Route::POST('createFastAppointment', 'SessionController@createInstantAppointment
 
 Route::GET('getPastAppointments', 'SessionController@getPastAppointments');
 
-Route::POST('createRecipeApi/{userid}/{colegiado}/{idAfiliado}/','SessionController@createRecipe');
+Route::POST('createRecipeApi/{id}/{userid}/','SessionController@createRecipe');
 
